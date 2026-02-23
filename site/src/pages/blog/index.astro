@@ -1,0 +1,54 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+---
+
+<MainLayout title="blog — afterless" description="Writing by afterless.">
+  <h1
+    class="text-3xl font-semibold tracking-tight text-neutral-900 dark:text-white sm:text-4xl"
+  >
+    Blog
+  </h1>
+
+  <div class="mt-10 space-y-1">
+    {
+      posts.map((post) => (
+        <a
+          href={`/blog/${post.id}`}
+          class="group -mx-3 flex items-baseline justify-between gap-4 rounded-lg px-3 py-3 transition-colors hover:bg-neutral-50 dark:hover:bg-neutral-900"
+        >
+          <div class="min-w-0">
+            <h2 class="text-base font-medium text-neutral-900 dark:text-white group-hover:text-accent transition-colors truncate">
+              {post.data.title}
+            </h2>
+            <p class="mt-0.5 text-sm text-neutral-500 dark:text-neutral-400 truncate">
+              {post.data.description}
+            </p>
+          </div>
+          <time
+            datetime={post.data.date.toISOString()}
+            class="shrink-0 text-sm tabular-nums text-neutral-400 dark:text-neutral-500"
+          >
+            {post.data.date.toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            })}
+          </time>
+        </a>
+      ))
+    }
+  </div>
+
+  {
+    posts.length === 0 && (
+      <p class="mt-10 text-neutral-400 dark:text-neutral-500">
+        Nothing here yet.
+      </p>
+    )
+  }
+</MainLayout>
