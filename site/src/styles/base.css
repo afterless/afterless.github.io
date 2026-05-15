@@ -1,0 +1,60 @@
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-accent: #b8793a;
+  --color-accent-dark: #8d542f;
+  --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-sans: "Source Sans 3", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Code", "Fira Code", monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #151313;
+}
+
+::selection {
+  background: rgba(239, 68, 68, 0.3);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.site-paper-texture {
+  background:
+    radial-gradient(ellipse at 82% 12%, rgba(185, 86, 55, .12), transparent 34%),
+    linear-gradient(115deg, rgba(180, 78, 50, .08), transparent 38%, rgba(47, 127, 114, .07) 82%, transparent),
+    repeating-linear-gradient(90deg, rgba(120, 113, 108, .06) 0 1px, transparent 1px 9px);
+}
+
+.page-shell {
+  background:
+    linear-gradient(180deg, #f2e7cf 0%, #f8f1e2 42%, #eadbbf 100%);
+}
+
+.dark .page-shell {
+  background:
+    radial-gradient(ellipse at 76% 8%, rgba(125, 107, 143, .16), transparent 34%),
+    radial-gradient(ellipse at 16% 24%, rgba(184, 121, 58, .1), transparent 30%),
+    linear-gradient(180deg, #0e120d 0%, #17160f 52%, #0b0e0a 100%);
+}
