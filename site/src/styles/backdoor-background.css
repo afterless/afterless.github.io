@@ -150,18 +150,26 @@ html:not(.dark) .door-slab::after {
 }
 
 .door-slab::before {
+  --leaf-soft: var(--close-soft);
+  --leaf-half: var(--close-half);
+  --leaf-wide: var(--close-wide);
+  --leaf-narrow: var(--close-narrow);
   left: 0;
   border-radius: 3px 0 0 3px;
   transform-origin: left center;
-  animation: door-left-leaf var(--travel) cubic-bezier(.32, 0, .18, 1) infinite;
+  animation: door-leaf-swing var(--travel) cubic-bezier(.32, 0, .18, 1) infinite;
   animation-delay: calc(var(--delay) + var(--leaf-offset));
 }
 
 .door-slab::after {
+  --leaf-soft: var(--open-soft);
+  --leaf-half: var(--open-half);
+  --leaf-wide: var(--open-wide);
+  --leaf-narrow: var(--open-narrow);
   right: 0;
   border-radius: 0 3px 3px 0;
   transform-origin: right center;
-  animation: door-right-leaf var(--travel) cubic-bezier(.32, 0, .18, 1) infinite;
+  animation: door-leaf-swing var(--travel) cubic-bezier(.32, 0, .18, 1) infinite;
   animation-delay: calc(var(--delay) + var(--leaf-offset));
   background:
     radial-gradient(circle at 18% 52%, color-mix(in srgb, var(--accent) 72%, #f5ead8) 0 .09rem, transparent .1rem),
@@ -198,72 +206,44 @@ html:not(.dark) .door-slab::after {
   }
   10% {
     opacity: .18;
-    transform: translate3d(calc(-50% + var(--dx-a)), calc(-50% + var(--dy-a)), 0) rotate(var(--r)) scale(var(--sa));
   }
   24% {
     opacity: .34;
-    transform: translate3d(calc(-50% + var(--dx-b)), calc(-50% + var(--dy-b)), 0) rotate(var(--r)) scale(var(--sb));
   }
   40% {
     opacity: .56;
-    transform: translate3d(calc(-50% + var(--dx-c)), calc(-50% + var(--dy-c)), 0) rotate(var(--r)) scale(var(--sc));
   }
   56% {
     opacity: .74;
-    transform: translate3d(calc(-50% + var(--dx-d)), calc(-50% + var(--dy-d)), 0) rotate(var(--r)) scale(var(--sd));
   }
   72% {
     opacity: .86;
-    transform: translate3d(calc(-50% + var(--dx-e)), calc(-50% + var(--dy-e)), 0) rotate(var(--r)) scale(var(--se));
   }
   88% {
     opacity: .66;
-    transform: translate3d(calc(-50% + var(--dx-f)), calc(-50% + var(--dy-f)), 0) rotate(var(--r)) scale(var(--sf));
   }
   100% {
     opacity: 0;
-    transform: translate3d(calc(-50% + var(--dx2)), calc(-50% + var(--dy2)), 0) rotate(var(--r)) scale(var(--es));
+    transform: translate3d(calc(-50% + var(--dx)), calc(-50% + var(--dy)), 0) rotate(var(--r)) scale(var(--es));
   }
 }
 
-@keyframes door-left-leaf {
+@keyframes door-leaf-swing {
   0%,
   100% {
     transform: rotateY(0deg);
   }
   18% {
-    transform: rotateY(var(--close-soft));
+    transform: rotateY(var(--leaf-soft));
   }
   36% {
-    transform: rotateY(var(--close-half));
+    transform: rotateY(var(--leaf-half));
   }
   58% {
-    transform: rotateY(var(--close-wide));
+    transform: rotateY(var(--leaf-wide));
   }
   76% {
-    transform: rotateY(var(--close-narrow));
-  }
-  90% {
-    transform: rotateY(0deg);
-  }
-}
-
-@keyframes door-right-leaf {
-  0%,
-  100% {
-    transform: rotateY(0deg);
-  }
-  18% {
-    transform: rotateY(var(--open-soft));
-  }
-  36% {
-    transform: rotateY(var(--open-half));
-  }
-  58% {
-    transform: rotateY(var(--open-wide));
-  }
-  76% {
-    transform: rotateY(var(--open-narrow));
+    transform: rotateY(var(--leaf-narrow));
   }
   90% {
     transform: rotateY(0deg);
@@ -357,7 +337,7 @@ html:not(.dark) .door-slab::after {
   .floating-door {
     animation: none;
     opacity: .45;
-    transform: translate3d(calc(-50% + var(--dx-d)), calc(-50% + var(--dy-d)), 0) rotate(var(--r)) scale(var(--sd));
+    transform: translate3d(calc(-50% + var(--mid-x)), calc(-50% + var(--mid-y)), 0) rotate(var(--r)) scale(var(--mid-scale));
   }
 
   .door-slab,

@@ -26,25 +26,10 @@ const doors = Array.from({ length: doorCount }, (_, index) => {
   const depth = 0.68 + ((index * 5) % 7) / 11;
   const startScale = 0.08 + depth * 0.04;
   const exitScale = scale * (depth + 0.72);
-  const scaleRange = exitScale - startScale;
-  const dxA = dx2 * 0.08;
-  const dyA = dy2 * 0.08;
-  const dxB = dx2 * 0.2;
-  const dyB = dy2 * 0.2;
-  const dxC = dx2 * 0.38;
-  const dyC = dy2 * 0.38;
-  const dxD = dx2 * 0.58;
-  const dyD = dy2 * 0.58;
-  const dxE = dx2 * 0.76;
-  const dyE = dy2 * 0.76;
-  const dxF = dx2 * 0.91;
-  const dyF = dy2 * 0.91;
-  const scaleA = startScale + scaleRange * 0.08;
-  const scaleB = startScale + scaleRange * 0.2;
-  const scaleC = startScale + scaleRange * 0.38;
-  const scaleD = startScale + scaleRange * 0.58;
-  const scaleE = startScale + scaleRange * 0.76;
-  const scaleF = startScale + scaleRange * 0.91;
+  const midProgress = 0.58;
+  const midX = dx2 * midProgress;
+  const midY = dy2 * midProgress;
+  const midScale = startScale + (exitScale - startScale) * midProgress;
   const rotate = ((index * 13) % 18) - 9 + variation.tilt * 0.25;
   const travel = 30;
   const delay = -((index * 4.73) % travel);
@@ -63,25 +48,10 @@ const doors = Array.from({ length: doorCount }, (_, index) => {
     exitY,
     dx2,
     dy2,
-    dxA,
-    dyA,
-    dxB,
-    dyB,
-    dxC,
-    dyC,
-    dxD,
-    dyD,
-    dxE,
-    dyE,
-    dxF,
-    dyF,
+    midX,
+    midY,
     startScale,
-    scaleA,
-    scaleB,
-    scaleC,
-    scaleD,
-    scaleE,
-    scaleF,
+    midScale,
     exitScale,
     rotate,
     travel,
@@ -104,7 +74,7 @@ const doors = Array.from({ length: doorCount }, (_, index) => {
       doors.map((door) => (
         <span
           class="floating-door"
-          style={`--sx:${door.startX}%; --sy:${door.startY}%; --dx-a:${door.dxA}vw; --dy-a:${door.dyA}vh; --dx-b:${door.dxB}vw; --dy-b:${door.dyB}vh; --dx-c:${door.dxC}vw; --dy-c:${door.dyC}vh; --dx-d:${door.dxD}vw; --dy-d:${door.dyD}vh; --dx-e:${door.dxE}vw; --dy-e:${door.dyE}vh; --dx-f:${door.dxF}vw; --dy-f:${door.dyF}vh; --dx2:${door.dx2}vw; --dy2:${door.dy2}vh; --ss:${door.startScale}; --sa:${door.scaleA}; --sb:${door.scaleB}; --sc:${door.scaleC}; --sd:${door.scaleD}; --se:${door.scaleE}; --sf:${door.scaleF}; --es:${door.exitScale}; --r:${door.rotate}deg; --travel:${door.travel}s; --delay:${door.delay.toFixed(2)}s; --leaf-offset:${door.leafOffset.toFixed(2)}s; --open:${door.open}deg; --open-soft:${door.openSoft.toFixed(2)}deg; --open-half:${door.openHalf.toFixed(2)}deg; --open-wide:${door.openWide.toFixed(2)}deg; --open-narrow:${door.openNarrow.toFixed(2)}deg; --close:${-door.open}deg; --close-soft:${(-door.openSoft).toFixed(2)}deg; --close-half:${(-door.openHalf).toFixed(2)}deg; --close-wide:${(-door.openWide).toFixed(2)}deg; --close-narrow:${(-door.openNarrow).toFixed(2)}deg;`}
+          style={`--sx:${door.startX}%; --sy:${door.startY}%; --dx:${door.dx2}vw; --dy:${door.dy2}vh; --mid-x:${door.midX}vw; --mid-y:${door.midY}vh; --ss:${door.startScale}; --mid-scale:${door.midScale}; --es:${door.exitScale}; --r:${door.rotate}deg; --travel:${door.travel}s; --delay:${door.delay.toFixed(2)}s; --leaf-offset:${door.leafOffset.toFixed(2)}s; --open:${door.open}deg; --open-soft:${door.openSoft.toFixed(2)}deg; --open-half:${door.openHalf.toFixed(2)}deg; --open-wide:${door.openWide.toFixed(2)}deg; --open-narrow:${door.openNarrow.toFixed(2)}deg; --close:${-door.open}deg; --close-soft:${(-door.openSoft).toFixed(2)}deg; --close-half:${(-door.openHalf).toFixed(2)}deg; --close-wide:${(-door.openWide).toFixed(2)}deg; --close-narrow:${(-door.openNarrow).toFixed(2)}deg;`}
         >
           <span class="door-slab"></span>
         </span>
