@@ -1,0 +1,50 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import { sauceVariations } from "../data/secretSauceVariations";
+---
+
+<MainLayout title="secret sauce studies — afterless" description="Internal design studies." wide>
+  <header class="border-b border-stone-200/80 pb-8 dark:border-stone-800">
+    <p class="font-mono text-xs uppercase text-accent">Internal studies</p>
+    <h1 class="mt-2 text-4xl font-semibold tracking-tight text-stone-900 dark:text-white">
+      Secret sauce studies
+    </h1>
+    <p class="mt-4 max-w-2xl leading-7 text-stone-600 dark:text-stone-300">
+      Twenty-four separate prototype pages for making the site feel more
+      specific without turning the theme into a literal costume.
+    </p>
+  </header>
+
+  <a href="/design-studies/synthesis" class="synthesis-callout">
+    <div>
+      <p class="font-mono text-xs uppercase text-accent">Recommended synthesis</p>
+      <h2>Inner Archive</h2>
+      <p>
+        Combines the selected studies into one direction: public reading room,
+        hidden crux layer, dense archive/search, canon lineage, stepped essay
+        margins, paired organic marks, and rare question-map seals.
+      </p>
+    </div>
+    <span>Open synthesis</span>
+  </a>
+
+  <div class="study-grid mt-8">
+    {
+      sauceVariations.map((study, index) => (
+        <a href={`/design-studies/${study.id}`} class={`study-card study-${study.frame}`}>
+          <div class="study-number">{String(index + 1).padStart(2, "0")}</div>
+          <div class="study-mock" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <h2>{study.title}</h2>
+          <p>{study.premise}</p>
+          <span class="study-link">Open study</span>
+        </a>
+      ))
+    }
+  </div>
+</MainLayout>

@@ -3,3 +3,6 @@ site/node_modules/
 site/dist/
 site/.astro/
 .DS_Store
+.claude/
+matarajin/
+site/design-inspiration-notes.md

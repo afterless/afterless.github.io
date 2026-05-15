@@ -3,66 +3,65 @@ import MainLayout from "../layouts/MainLayout.astro";
 
 const projects = [
   {
-    title: "This Website",
+    title: "Personal research site",
+    status: "active",
     description:
-      "Personal site with a Bad Apple-inspired landing page and custom danmaku particle system.",
-    tags: ["Astro", "Tailwind", "TypeScript"],
+      "A hand-shaped Astro site for research notes, essays, and project traces. The design language uses a sparse threshold background on the homepage and quiet ledger surfaces elsewhere.",
+    tags: ["Astro", "design systems", "writing"],
     link: "https://github.com/afterless",
+  },
+  {
+    title: "Georgia Tech AI Safety Initiative",
+    status: "community",
+    description:
+      "Co-founded a student group for technical AI safety reading, education, and project formation at Georgia Tech.",
+    tags: ["AI safety", "education", "organizing"],
+    link: "/",
+  },
+  {
+    title: "Future-token representations",
+    status: "research",
+    description:
+      "Prior work investigating how language models encode future-token structure with sparse autoencoder tools.",
+    tags: ["interpretability", "SAEs", "LLMs"],
+    link: "/blog",
   },
 ];
 ---
 
-<MainLayout
-  title="projects — afterless"
-  description="Things I've built."
->
-  <h1
-    class="text-3xl font-semibold tracking-tight text-neutral-900 dark:text-white sm:text-4xl"
-  >
-    Projects
-  </h1>
+<MainLayout title="projects — afterless" description="Projects and research traces by Ayush Panda.">
+  <article class="subpage-stack">
+    <header class="subpage-hero">
+      <p class="subpage-kicker">Projects</p>
+      <h1>Work surfaces and public traces.</h1>
+      <p>
+        A compact ledger of things I have built, organized, or researched. This
+        page should eventually point to writeups rather than explain everything
+        itself.
+      </p>
+    </header>
 
-  <div class="mt-10 grid gap-4">
-    {
-      projects.map((project) => (
-        <a
-          href={project.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="group block rounded-lg border border-neutral-200 p-6 transition-all dark:border-neutral-800 hover:border-accent/50 dark:hover:border-accent/50 hover:shadow-sm"
-        >
-          <div class="flex items-start justify-between gap-4">
+    <section class="route-board" aria-label="Project route">
+      {
+        projects.map((project, index) => (
+          <a
+            href={project.link}
+            target={project.link.startsWith("http") ? "_blank" : undefined}
+            rel={project.link.startsWith("http") ? "noopener noreferrer" : undefined}
+            class="route-step"
+          >
+            <span class="route-index">{String(index + 1).padStart(2, "0")}</span>
             <div>
-              <h2 class="text-lg font-medium text-neutral-900 dark:text-white group-hover:text-accent transition-colors">
-                {project.title}
-              </h2>
-              <p class="mt-2 text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">
-                {project.description}
-              </p>
+              <div class="route-meta">
+                <span>{project.status}</span>
+                <span>{project.tags.join(" / ")}</span>
+              </div>
+              <h2>{project.title}</h2>
+              <p>{project.description}</p>
             </div>
-            <svg
-              class="mt-1 h-4 w-4 shrink-0 text-neutral-400 transition-transform group-hover:translate-x-0.5 group-hover:text-accent"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path d="M7 17L17 7M17 7H7M17 7v10" />
-            </svg>
-          </div>
-          <div class="mt-4 flex flex-wrap gap-2">
-            {project.tags.map((tag) => (
-              <span class="rounded-full bg-neutral-100 dark:bg-neutral-800 px-2.5 py-0.5 text-xs text-neutral-600 dark:text-neutral-400">
-                {tag}
-              </span>
-            ))}
-          </div>
-        </a>
-      ))
-    }
-  </div>
-
-  <p class="mt-12 text-sm text-neutral-400 dark:text-neutral-500">
-    More coming soon.
-  </p>
+          </a>
+        ))
+      }
+    </section>
+  </article>
 </MainLayout>

@@ -1,0 +1,133 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import { sauceVariations, type SauceVariation } from "../../data/secretSauceVariations";
+
+export function getStaticPaths() {
+  return sauceVariations.map((variation) => ({
+    params: { slug: variation.id },
+    props: { variation },
+  }));
+}
+
+interface Props {
+  variation: SauceVariation;
+}
+
+const { variation } = Astro.props;
+const index = sauceVariations.findIndex((item) => item.id === variation.id);
+const previous = sauceVariations[(index - 1 + sauceVariations.length) % sauceVariations.length];
+const next = sauceVariations[(index + 1) % sauceVariations.length];
+
+const rows = [
+  ["01", "Control evaluations for automated AI R&D", "essay", "active"],
+  ["02", "Mechanistic stories I currently distrust", "note", "draft"],
+  ["03", "Future-token representations and planning", "project", "open"],
+  ["04", "What I want from research websites", "fragment", "kept"],
+];
+
+const movements = [
+  "summon",
+  "field",
+  "route",
+  "inner",
+  "young",
+  "elder",
+  "small dance",
+  "closing",
+];
+---
+
+<MainLayout title={`${variation.title} — design study`} description={variation.premise} wide>
+  <article
+    class:list={["sauce-page", `sauce-frame-${variation.frame}`]}
+    style={`--sauce-accent:${variation.accent}; --sauce-alt:${variation.alt};`}
+  >
+    <nav class="sauce-return" aria-label="Design study navigation">
+      <a href="/design-studies">All studies</a>
+      <span>{String(index + 1).padStart(2, "0")} / {sauceVariations.length}</span>
+      <a href={`/design-studies/${previous.id}`}>Previous</a>
+      <a href={`/design-studies/${next.id}`}>Next</a>
+    </nav>
+
+    <header class="sauce-hero">
+      <p class="subpage-kicker">Prototype variation</p>
+      <h1>{variation.title}</h1>
+      <p>{variation.premise}</p>
+    </header>
+
+    <section class="sauce-canvas" aria-label={`${variation.title} prototype`}>
+      <aside class="sauce-brief">
+        <p>Design signal</p>
+        <ul>
+          {variation.signals.map((signal) => <li>{signal}</li>)}
+        </ul>
+      </aside>
+
+      <div class="sauce-surface">
+        <div class="sauce-topline">
+          <span>Ayush Panda</span>
+          <span>research archive</span>
+        </div>
+
+        <div class="sauce-stage">
+          <section class="sauce-primary">
+            <p class="sauce-label">current shape</p>
+            <h2>{variation.surface}</h2>
+            <p>{variation.hidden}</p>
+          </section>
+
+          <aside class="sauce-secret">
+            <p class="sauce-label">inner mechanism</p>
+            <p>{variation.interaction}</p>
+            <div class="sauce-seal" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </aside>
+        </div>
+
+        <div class="sauce-program" aria-label="Example structure">
+          {
+            movements.map((movement, movementIndex) => (
+              <span>{String(movementIndex + 1).padStart(2, "0")} {movement}</span>
+            ))
+          }
+        </div>
+
+        <div class="sauce-rows" aria-label="Example archive rows">
+          {
+            rows.map(([rowIndex, title, type, status]) => (
+              <article>
+                <span>{rowIndex}</span>
+                <div>
+                  <h3>{title}</h3>
+                  <p>{type} / {status}</p>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="sauce-translation">
+      <div>
+        <h2>What This Would Change</h2>
+        <p>{variation.surface}</p>
+      </div>
+      <div>
+        <h2>Why It Might Work</h2>
+        <p>{variation.hidden}</p>
+      </div>
+      <div>
+        <h2>Interaction Hook</h2>
+        <p>{variation.interaction}</p>
+      </div>
+    </section>
+  </article>
+</MainLayout>

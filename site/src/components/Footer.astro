@@ -2,22 +2,22 @@
 const year = new Date().getFullYear();
 ---
 
-<footer
-  class="border-t border-neutral-200 dark:border-neutral-800 py-8 mt-20"
->
-  <div class="mx-auto max-w-3xl px-6">
+<footer class="subpage-footer relative mt-20 border-t border-stone-200 py-8 dark:border-stone-800">
+  <div class="mx-auto max-w-5xl px-6">
     <div
       class="flex flex-col items-center justify-between gap-4 sm:flex-row"
     >
-      <p class="text-sm text-neutral-500 dark:text-neutral-500">
+      <p class="text-sm text-stone-500 dark:text-stone-500">
         &copy; {year} afterless
       </p>
-      <div class="flex items-center gap-4">
+      <div class="personal-ring" aria-label="Personal web links">
+        <a href="/">home</a>
+        <a href="/blog">archive</a>
+        <a href="/projects">projects</a>
         <a
           href="https://github.com/afterless"
           target="_blank"
           rel="noopener noreferrer"
-          class="text-neutral-400 transition-colors hover:text-neutral-900 dark:hover:text-white"
           aria-label="GitHub"
         >
           <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">

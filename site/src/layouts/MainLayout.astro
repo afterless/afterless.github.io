@@ -6,17 +6,22 @@ import Footer from "../components/Footer.astro";
 interface Props {
   title: string;
   description?: string;
+  wide?: boolean;
 }
 
-const { title, description } = Astro.props;
+const { title, description, wide = false } = Astro.props;
 ---
 
 <Layout title={title} description={description}>
-  <div
-    class="min-h-screen bg-white text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100 transition-colors"
-  >
+  <div class="page-shell subpage-stage min-h-screen text-stone-900 transition-colors dark:bg-stone-950 dark:text-stone-100">
+    <div class="pointer-events-none fixed inset-0 site-paper-texture" aria-hidden="true"></div>
     <Navigation />
-    <main class="mx-auto max-w-3xl px-6 pt-24 pb-12">
+    <main
+      class:list={[
+        "subpage-main relative mx-auto px-6 pt-28 pb-12",
+        wide ? "max-w-6xl" : "max-w-3xl",
+      ]}
+    >
       <slot />
     </main>
     <Footer />

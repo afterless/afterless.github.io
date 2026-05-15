@@ -1,203 +1,270 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import BackdoorBackground from "../components/BackdoorBackground.astro";
+import QuestionSeal from "../components/QuestionSeal.astro";
+import { getCollection } from "astro:content";
+import type { SiteTheme } from "../types/siteTheme";
+
+const siteTheme: SiteTheme = {
+  id: "night-reading-room",
+  name: "Night Reading Room",
+  mode: "personal research blog",
+  principle:
+    "A readable paper archive with a quiet threshold mythology in the margins.",
+  ink: "#0e120d",
+  paper: "#17160f",
+  panel: "rgba(26, 25, 17, 0.88)",
+  text: "#f2e6c7",
+  muted: "#b9ad88",
+  accent: "#b8793a",
+  accentTwo: "#7d6b8f",
+  door: "#9a4929",
+  glow: "rgba(184, 121, 58, 0.24)",
+  shadow: "rgba(0, 0, 0, 0.42)",
+  grain: 0.18,
+  tilt: -2,
+  density: 1.2,
+};
+
+function cssVars(variation: SiteTheme) {
+  return [
+    `--ink:${variation.ink}`,
+    `--paper:${variation.paper}`,
+    `--panel:${variation.panel}`,
+    `--text:${variation.text}`,
+    `--muted:${variation.muted}`,
+    `--accent:${variation.accent}`,
+    `--accent-two:${variation.accentTwo}`,
+    `--door:${variation.door}`,
+    `--glow:${variation.glow}`,
+    `--site-shadow:${variation.shadow}`,
+    `--grain-opacity:${variation.grain}`,
+    `--site-tilt:${variation.tilt}deg`,
+    `--door-density:${variation.density}`,
+  ].join(";");
+}
+
+const posts = (await getCollection("blog"))
+  .filter((post) => post.data.draft !== true)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const recentPosts = posts.slice(0, 4).map((post) => ({
+  title: post.data.title,
+  date: post.data.date,
+  tag: post.data.tags?.[0] ?? "essay",
+  summary: post.data.description,
+  href: `/blog/${post.id}`,
+  search: `${post.data.title} ${post.data.description} ${(post.data.tags ?? []).join(" ")}`.toLowerCase(),
+}));
+
+const workItems = [
+  "MATS scholar in Francis Rhys Ward's stream, focused on AI control for automated AI R&D.",
+  "MSCS student at Georgia Tech and co-founder of the Georgia Tech AI Safety Initiative.",
+  "Previous work on sparse autoencoders, future-token representations, ML safety teaching, and software engineering at AWS.",
+];
 ---
 
-<Layout title="Ayush Panda">
-  <div class="relative min-h-screen bg-neutral-950 text-neutral-300">
-    <canvas
-      id="danmaku"
-      class="pointer-events-none fixed inset-0 z-0"
-      aria-hidden="true"></canvas>
+<Layout
+  title="Ayush Panda"
+  description="Ayush Panda's personal website, blog, and AI safety research notes."
+>
+  <main id="personal-site" class="personal-site" style={cssVars(siteTheme)}>
+    <BackdoorBackground variation={siteTheme} />
 
-    <div class="relative z-10 mx-auto max-w-2xl px-6 pt-12 pb-24 sm:px-10 sm:pt-20">
-      <!-- Name -->
-      <h1 class="text-2xl text-white" style="font-family: 'Inter', sans-serif; font-weight: 600; letter-spacing: 0.03em;">
-        Ayush Panda
-      </h1>
+    <header class="site-header" aria-label="Site navigation">
+      <a class="wordmark" href="/">
+        <span>Ayush Panda</span>
+        <span>afterless</span>
+      </a>
+      <nav class="top-nav">
+        <a href="#writing">writing</a>
+        <a href="#work">work</a>
+        <a href="/blog">blog</a>
+        <button
+          class="backroom-toggle"
+          type="button"
+          data-backroom-search-toggle
+          aria-expanded="false"
+          aria-controls="landing-backroom-search"
+        >
+          search
+        </button>
+        <button id="theme-toggle" class="landing-theme-toggle" type="button" aria-label="Toggle theme">
+          <svg
+            class="sun-icon"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg
+            class="moon-icon"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </nav>
+    </header>
 
-      <!-- Contact -->
-      <div class="mt-3 text-sm text-neutral-500">
-        apanda38 [at] gatech [dot] edu
+    <aside class="landing-backroom-search" id="landing-backroom-search" hidden>
+      <label>
+        <span>Back room search</span>
+        <input type="search" placeholder="try control, interpretability, web" data-backroom-search />
+      </label>
+      <div class="landing-search-results" aria-live="polite">
+        {
+          recentPosts.map((post) => (
+            <a href={post.href} data-search-result={post.search}>
+              <span>{post.tag}</span>
+              <strong>{post.title}</strong>
+            </a>
+          ))
+        }
+        <a href="/projects" data-search-result="projects work public traces research organizing site">
+          <span>work</span>
+          <strong>Project traces</strong>
+        </a>
       </div>
-      <div class="mt-1.5 text-sm text-neutral-500">
-        <a href="https://linkedin.com/in/ayushpanda1029" target="_blank" rel="noopener noreferrer" class="hover:text-neutral-300">LinkedIn</a>,
-        <a href="https://github.com/afterless" target="_blank" rel="noopener noreferrer" class="hover:text-neutral-300">GitHub</a>
+    </aside>
+
+    <section class="hero-shell" aria-labelledby="intro-title">
+      <div class="hero-copy">
+        <h1 id="intro-title">AI safety notes from a quiet room behind the page.</h1>
+        <div class="bio-text">
+          <p>
+            Hi, I'm Ayush. As of winter 2026, I am a MATS scholar in Francis
+            Rhys Ward's stream, working on AI control settings for automated AI
+            R&D. Outside of MATS, I am pursuing my MS in Computer Science at
+            Georgia Tech, where I co-founded the AI Safety Initiative.
+          </p>
+          <p>
+            I am interested in AI safety, interpretability, and understanding
+            the internal mechanisms of large language models. Previously, I
+            investigated how LLMs encode future tokens using sparse autoencoders
+            at SPAR, taught ML safety as a TA for the Center for AI Safety, and
+            worked as a software engineer at AWS.
+          </p>
+        </div>
+        <div class="hero-actions" aria-label="Contact links">
+          <a href="mailto:apanda38@gatech.edu">apanda38 [at] gatech [dot] edu</a>
+          <a href="https://github.com/afterless" target="_blank" rel="noreferrer">GitHub</a>
+          <a href="https://linkedin.com/in/ayushpanda1029" target="_blank" rel="noreferrer">LinkedIn</a>
+        </div>
       </div>
 
-      <!-- Bio -->
-      <div class="mt-8 space-y-4 leading-relaxed">
-        <p>
-          Hi! I'm Ayush. As of winter 2026, I am a MATS scholar in Francis Rhys
-          Ward's stream, working on AI control settings for automated AI R&D.
-          Outside of MATS, I am pursuing my MS in Computer Science at Georgia
-          Tech, where I co-founded the AI Safety Initiative.
-        </p>
+      <aside id="work" class="threshold-panel" aria-label="Current work">
+        <div class="threshold-heading">
+          <div>
+            <div class="panel-kicker">current shape</div>
+            <h2>Control, interpretability, and agentic systems.</h2>
+          </div>
+          <div class="threshold-seal-wrap">
+            <QuestionSeal class="threshold-question-seal" projection="focus" />
+          </div>
+        </div>
+        <p class="question-caption" data-question-display>Hover a star to inspect a recurring question.</p>
+        <ul class="threshold-list">
+          {workItems.map((item) => <li>{item}</li>)}
+        </ul>
+      </aside>
+    </section>
 
-        <p>
-          I am interested in AI safety, interpretability, and understanding the
-          internal mechanisms of large language models. Previously, I investigated
-          how LLMs encode future tokens using sparse autoencoders at SPAR, and
-          taught ML safety as a TA for the Center for AI Safety. I have also
-          worked as a software engineer at AWS.
-        </p>
+    <section id="writing" class="content-band backstage-band">
+      <div class="section-heading">
+        <p>Writing</p>
+        <h2>Recent notes</h2>
       </div>
+      <div class="post-list">
+        {
+          recentPosts.map((post) => (
+            <article class="post-row" data-search-result={post.search}>
+              <div>
+                <time datetime={post.date.toISOString()}>
+                  {post.date.toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                    timeZone: "UTC",
+                  })}
+                </time>
+                <span>{post.tag}</span>
+              </div>
+              <a href={post.href}>
+                <h3>{post.title}</h3>
+                <p>{post.summary}</p>
+              </a>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+  </main>
+  <script>
+    const toggle = document.getElementById("theme-toggle");
+    toggle?.addEventListener("click", () => {
+      const isDark = document.documentElement.classList.toggle("dark");
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+    });
 
+    const searchToggle = document.querySelector("[data-backroom-search-toggle]");
+    const searchPanel = document.querySelector("#landing-backroom-search");
+    const searchInput = document.querySelector("[data-backroom-search]");
+    const searchResults = [...document.querySelectorAll(".landing-search-results [data-search-result]")];
 
-    </div>
-  </div>
-</Layout>
+    searchToggle?.addEventListener("click", () => {
+      const willOpen = searchPanel?.hasAttribute("hidden");
+      searchPanel?.toggleAttribute("hidden", !willOpen);
+      searchToggle.setAttribute("aria-expanded", String(willOpen));
+      if (willOpen) searchInput?.focus();
+    });
 
-<script>
-  const canvas = document.getElementById("danmaku") as HTMLCanvasElement;
-  const ctx = canvas.getContext("2d")!;
-
-  type Shape = "circle" | "diamond" | "star" | "rice";
-  const shapes: Shape[] = ["circle", "diamond", "star", "rice"];
-
-  interface Particle {
-    x: number;
-    y: number;
-    vx: number;
-    vy: number;
-    life: number;
-    decay: number;
-    size: number;
-    shape: Shape;
-  }
-
-  let particles: Particle[] = [];
-  let time = 0;
-  let lastEmit = 0;
-  let patternTimer = 0;
-  let patternIndex = 0;
-  const patterns = ["spiral", "ring", "flower"] as const;
-
-  function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-
-  function emit() {
-    const pattern = patterns[patternIndex];
-    const count = 8;
-    const shape = shapes[Math.floor(Math.random() * shapes.length)];
-    const ox = canvas.width * 0.6;
-    const oy = canvas.height * 0.45;
-
-    for (let i = 0; i < count; i++) {
-      let angle: number;
-      let speed: number;
-
-      switch (pattern) {
-        case "spiral":
-          angle = (i / count) * Math.PI * 2 + time * 0.4;
-          speed = 0.35;
-          break;
-        case "ring":
-          angle = (i / count) * Math.PI * 2;
-          speed = 0.45;
-          break;
-        case "flower":
-          angle = (i / count) * Math.PI * 2;
-          speed = 0.3 + Math.sin(i * 3) * 0.15;
-          break;
-      }
-
-      particles.push({
-        x: ox,
-        y: oy,
-        vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed,
-        life: 1,
-        decay: 0.0012 + Math.random() * 0.001,
-        size: 0.8 + Math.random() * 0.8,
-        shape,
+    searchInput?.addEventListener("input", () => {
+      const query = searchInput.value.trim().toLowerCase();
+      searchResults.forEach((result) => {
+        result.toggleAttribute("hidden", query.length > 0 && !result.dataset.searchResult?.includes(query));
       });
-    }
-  }
+    });
 
-  function drawStar(x: number, y: number, r: number) {
-    ctx.beginPath();
-    for (let i = 0; i < 8; i++) {
-      const rad = i % 2 === 0 ? r : r * 0.4;
-      const a = (i * Math.PI) / 4 - Math.PI / 2;
-      if (i === 0) ctx.moveTo(x + Math.cos(a) * rad, y + Math.sin(a) * rad);
-      else ctx.lineTo(x + Math.cos(a) * rad, y + Math.sin(a) * rad);
-    }
-    ctx.closePath();
-    ctx.fill();
-  }
+    const starButtons = [...document.querySelectorAll("[data-star]")];
+    const questionDisplay = document.querySelector("[data-question-display]");
+    const defaultQuestionText = questionDisplay?.textContent?.trim() ?? "";
 
-  function drawParticle(p: Particle) {
-    ctx.fillStyle = "#fff";
-    switch (p.shape) {
-      case "circle":
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fill();
-        break;
-      case "diamond":
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate(Math.PI / 4);
-        ctx.fillRect(-p.size, -p.size, p.size * 2, p.size * 2);
-        ctx.restore();
-        break;
-      case "star":
-        drawStar(p.x, p.y, p.size * 1.3);
-        break;
-      case "rice":
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate(Math.atan2(p.vy, p.vx));
-        ctx.beginPath();
-        ctx.ellipse(0, 0, p.size * 1.6, p.size * 0.4, 0, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-        break;
-    }
-  }
-
-  let lastTime = 0;
-  let started = false;
-
-  function loop(now: number) {
-    if (!started) { lastTime = now; started = true; }
-    const dt = Math.min((now - lastTime) / 1000, 0.05);
-    lastTime = now;
-    time += dt;
-    lastEmit += dt;
-    patternTimer += dt;
-
-    if (patternTimer > 5) {
-      patternIndex = (patternIndex + 1) % patterns.length;
-      patternTimer = 0;
+    function activateStar(button) {
+      starButtons.forEach((star) => star.classList.toggle("is-active", star === button));
+      questionDisplay?.classList.add("is-visible");
+      if (questionDisplay && button.dataset.questionText) {
+        questionDisplay.textContent = button.dataset.questionText;
+      }
     }
 
-    if (lastEmit > 0.7) {
-      emit();
-      lastEmit = 0;
+    function clearStars() {
+      starButtons.forEach((star) => star.classList.remove("is-active"));
+      questionDisplay?.classList.remove("is-visible");
+      if (questionDisplay) questionDisplay.textContent = defaultQuestionText;
     }
 
-    for (let i = particles.length - 1; i >= 0; i--) {
-      const p = particles[i];
-      p.x += p.vx;
-      p.y += p.vy;
-      p.life -= p.decay;
-      if (p.life <= 0) particles.splice(i, 1);
-    }
+    starButtons.forEach((button) => {
+      button.addEventListener("mouseenter", () => activateStar(button));
+      button.addEventListener("focus", () => activateStar(button));
+      button.addEventListener("blur", clearStars);
+    });
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (const p of particles) {
-      ctx.globalAlpha = p.life * 0.08;
-      drawParticle(p);
-    }
-    ctx.globalAlpha = 1;
-
-    requestAnimationFrame(loop);
-  }
-
-  resize();
-  window.addEventListener("resize", resize);
-  requestAnimationFrame(loop);
-</script>
+    document.querySelector(".threshold-question-seal")?.addEventListener("mouseleave", clearStars);
+  </script>
+</Layout>

@@ -1,54 +1,237 @@
 ---
 import MainLayout from "../../layouts/MainLayout.astro";
+import QuestionSeal from "../../components/QuestionSeal.astro";
 import { getCollection } from "astro:content";
 
-const posts = (await getCollection("blog")).sort(
-  (a, b) => b.data.date.getTime() - a.data.date.getTime()
-);
+const rawPosts = (await getCollection("blog"))
+  .filter((post) => post.data.draft !== true)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const posts = rawPosts.map((post) => {
+  const readingMinutes = Math.max(1, Math.round(post.body.split(/\s+/).length / 220));
+  const kind = post.data.kind ?? (readingMinutes <= 3 ? "note" : "essay");
+  return {
+    ...post,
+    readingMinutes,
+    kind,
+    search: `${post.data.title} ${post.data.description} ${kind} ${post.data.status ?? ""} ${(post.data.tags ?? []).join(" ")}`.toLowerCase(),
+  };
+});
+
+const tags = [...new Set(posts.flatMap((post) => post.data.tags ?? []))].sort();
+const latest = posts[0];
+const shelfPosts = posts.filter((post) => post.id !== latest?.id);
+const essays = shelfPosts.filter((post) => post.kind === "essay");
+const notes = shelfPosts.filter((post) => post.kind !== "essay");
 ---
 
 <MainLayout title="blog — afterless" description="Writing by afterless.">
-  <h1
-    class="text-3xl font-semibold tracking-tight text-neutral-900 dark:text-white sm:text-4xl"
-  >
-    Blog
-  </h1>
-
-  <div class="mt-10 space-y-1">
-    {
-      posts.map((post) => (
-        <a
-          href={`/blog/${post.id}`}
-          class="group -mx-3 flex items-baseline justify-between gap-4 rounded-lg px-3 py-3 transition-colors hover:bg-neutral-50 dark:hover:bg-neutral-900"
-        >
-          <div class="min-w-0">
-            <h2 class="text-base font-medium text-neutral-900 dark:text-white group-hover:text-accent transition-colors truncate">
-              {post.data.title}
-            </h2>
-            <p class="mt-0.5 text-sm text-neutral-500 dark:text-neutral-400 truncate">
-              {post.data.description}
-            </p>
-          </div>
-          <time
-            datetime={post.data.date.toISOString()}
-            class="shrink-0 text-sm tabular-nums text-neutral-400 dark:text-neutral-500"
-          >
-            {post.data.date.toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "short",
-              day: "numeric",
-            })}
-          </time>
-        </a>
-      ))
-    }
-  </div>
-
-  {
-    posts.length === 0 && (
-      <p class="mt-10 text-neutral-400 dark:text-neutral-500">
-        Nothing here yet.
+  <article class="writing-index">
+    <header class="writing-hero">
+      <p class="subpage-kicker">Writing</p>
+      <h1>Essays, notes, and useful fragments.</h1>
+      <p>
+        Full posts when an argument wants structure; short notes when a thought
+        is useful before it is complete.
       </p>
-    )
-  }
+      {
+        tags.length > 0 && (
+          <div class="writing-filters" aria-label="Tags">
+            <button type="button" data-kind-filter="all" class="is-active">All</button>
+            <button type="button" data-kind-filter="essay">Essays</button>
+            <button type="button" data-kind-filter="note">Notes</button>
+            {tags.map((tag) => <button type="button" data-kind-filter={tag}>{tag}</button>)}
+          </div>
+        )
+      }
+    </header>
+
+    <section class="archive-control-room writing-control-room" aria-label="Archive controls">
+      <div class="archive-search-panel">
+        <div class="archive-search-copy">
+          <label>
+            <span>Back room search</span>
+            <input type="search" placeholder="filter by title, tag, status, question" data-archive-search />
+          </label>
+          <p data-question-display>Hover a star to filter by a recurring question.</p>
+        </div>
+        <QuestionSeal class="archive-question-seal" projection="focus" />
+      </div>
+    </section>
+
+    {
+      latest && (
+        <section class="latest-writing" aria-label="Latest writing">
+          <a href={`/blog/${latest.id}`} data-archive-row data-kind={latest.kind} data-search-result={latest.search}>
+            <span class="latest-date">
+              {latest.data.date.toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+              })}
+            </span>
+            <div>
+              <p class="latest-kicker">Latest</p>
+              <h2>{latest.data.title}</h2>
+              <p>{latest.data.description}</p>
+              <div class="archive-tags">
+                <span>{latest.readingMinutes} min</span>
+                {latest.data.tags?.map((tag) => <span>{tag}</span>)}
+              </div>
+            </div>
+          </a>
+        </section>
+      )
+    }
+
+    <section class="writing-shelves" aria-label="Writing shelves">
+      <section class="writing-shelf">
+        <div class="writing-shelf-head">
+          <h2>Full posts</h2>
+          <p>Longer arguments and structured writeups.</p>
+        </div>
+        <div class="writing-list">
+          {
+            essays.length > 0 ? (
+              essays.map((post, index) => (
+                <a
+                  href={`/blog/${post.id}`}
+                  class="writing-row"
+                  data-archive-row
+                  data-kind={post.kind}
+                  data-search-result={post.search}
+                >
+                  <span class="archive-index">{String(index + 1).padStart(2, "0")}</span>
+                  <div class="archive-copy">
+                    <h3>{post.data.title}</h3>
+                    <p>{post.data.description}</p>
+                    <div class="archive-tags">
+                      <span>{post.readingMinutes} min</span>
+                      {post.data.tags?.map((tag) => <span>{tag}</span>)}
+                    </div>
+                  </div>
+                  <time datetime={post.data.date.toISOString()}>
+                    {post.data.date.toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    })}
+                  </time>
+                </a>
+              ))
+            ) : (
+              <p class="empty-state">No full posts yet.</p>
+            )
+          }
+        </div>
+      </section>
+
+      <section class="writing-shelf">
+        <div class="writing-shelf-head">
+          <h2>Short notes</h2>
+          <p>Useful fragments, logs, and working observations.</p>
+        </div>
+        <div class="note-list">
+          {
+            notes.length > 0 ? (
+              notes.map((post) => (
+                <a
+                  href={`/blog/${post.id}`}
+                  class="note-row"
+                  data-archive-row
+                  data-kind="note"
+                  data-search-result={post.search}
+                >
+                  <time datetime={post.data.date.toISOString()}>
+                    {post.data.date.toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    })}
+                  </time>
+                  <div>
+                    <h3>{post.data.title}</h3>
+                    <p>{post.data.description}</p>
+                  </div>
+                  <span>{post.readingMinutes} min</span>
+                </a>
+              ))
+            ) : (
+              <p class="empty-state">No short notes yet.</p>
+            )
+          }
+        </div>
+      </section>
+    </section>
+
+    {
+      posts.length === 0 && (
+        <p class="empty-state">
+          Nothing here yet.
+        </p>
+      )
+    }
+  </article>
+
+    <script>
+    const archiveSearch = document.querySelector("[data-archive-search]");
+    const archiveRows = [...document.querySelectorAll("[data-archive-row]")];
+    const filterButtons = [...document.querySelectorAll("[data-kind-filter]")];
+    const starButtons = [...document.querySelectorAll("[data-star]")];
+    const questionDisplay = document.querySelector("[data-question-display]");
+    const defaultQuestionText = questionDisplay?.textContent?.trim() ?? "";
+    let activeFilter = "all";
+
+    function filterArchive(query) {
+      archiveRows.forEach((row) => {
+        const matchesSearch = query.length === 0 || row.dataset.searchResult?.includes(query);
+        const matchesKind =
+          activeFilter === "all" ||
+          row.dataset.kind === activeFilter ||
+          row.dataset.searchResult?.includes(activeFilter);
+        row.toggleAttribute("hidden", !matchesSearch || !matchesKind);
+      });
+    }
+
+    archiveSearch?.addEventListener("input", () => {
+      filterArchive(archiveSearch.value.trim().toLowerCase());
+    });
+
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        activeFilter = button.dataset.kindFilter ?? "all";
+        filterButtons.forEach((item) => item.classList.toggle("is-active", item === button));
+        filterArchive(archiveSearch instanceof HTMLInputElement ? archiveSearch.value.trim().toLowerCase() : "");
+      });
+    });
+
+    function activateStar(button) {
+      starButtons.forEach((star) => star.classList.toggle("is-active", star === button));
+      questionDisplay?.classList.add("is-visible");
+      if (questionDisplay && button.dataset.questionText) {
+        questionDisplay.textContent = button.dataset.questionText;
+      }
+      if (archiveSearch instanceof HTMLInputElement) {
+        archiveSearch.value = button.dataset.starFilter ?? "";
+        filterArchive(archiveSearch.value.toLowerCase());
+      }
+    }
+
+    function clearStars() {
+      starButtons.forEach((star) => star.classList.remove("is-active"));
+      questionDisplay?.classList.remove("is-visible");
+      if (questionDisplay) questionDisplay.textContent = defaultQuestionText;
+      if (archiveSearch instanceof HTMLInputElement) {
+        archiveSearch.value = "";
+        filterArchive("");
+      }
+    }
+
+    starButtons.forEach((button) => {
+      button.addEventListener("mouseenter", () => activateStar(button));
+      button.addEventListener("focus", () => activateStar(button));
+      button.addEventListener("blur", clearStars);
+    });
+
+    document.querySelector(".archive-question-seal")?.addEventListener("mouseleave", clearStars);
+  </script>
 </MainLayout>

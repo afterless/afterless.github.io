@@ -1,0 +1,60 @@
+---
+import { questionPolyline, questionStars } from "../data/questionMap";
+
+interface Props {
+  label?: string;
+  class?: string;
+  projection?: "default" | "focus";
+}
+
+const { label = "Question map", class: className = "", projection = "default" } = Astro.props;
+
+function projectForFocus(x: number, y: number) {
+  return {
+    x: 8 + ((x - 12) / 76) * 84,
+    y: 12 + ((y - 28) / 44) * 76,
+  };
+}
+
+function formatPoint(value: number) {
+  return Number(value.toFixed(2));
+}
+
+const displayStars =
+  projection === "focus"
+    ? questionStars.map((star) => ({ ...star, ...projectForFocus(star.x, star.y) }))
+    : questionStars;
+
+const starByName = new Map(displayStars.map((star) => [star.name, star]));
+const polylineOrder = ["Dubhe", "Merak", "Phecda", "Megrez", "Dubhe", "Megrez", "Alioth", "Mizar", "Alkaid"];
+const displayPolyline =
+  projection === "focus"
+    ? polylineOrder
+        .map((name) => {
+          const star = starByName.get(name);
+          return star ? `${formatPoint(star.x)},${formatPoint(star.y)}` : "";
+        })
+        .filter(Boolean)
+        .join(" ")
+    : questionPolyline;
+---
+
+<div class={`question-seal ${className}`} aria-label={label}>
+  <svg viewBox="0 0 100 100" preserveAspectRatio="none" role="img" aria-label="Seven-star question map">
+    <polyline points={displayPolyline}></polyline>
+  </svg>
+  {
+    displayStars.map((star) => (
+      <button
+        type="button"
+        style={`--star-x:${star.x}%; --star-y:${star.y}%;`}
+        data-star={star.name}
+        data-star-filter={star.filter}
+        data-question-text={star.question}
+        aria-label={`${star.name}: ${star.question}`}
+      >
+        <span>{star.name}</span>
+      </button>
+    ))
+  }
+</div>
