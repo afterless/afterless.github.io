@@ -53,30 +53,30 @@
 
 .essay-grid {
   display: grid;
-  grid-template-columns: minmax(9rem, 13rem) minmax(0, 46rem);
-  gap: clamp(2rem, 6vw, 5rem);
+  grid-template-columns: minmax(0, 46rem);
+  gap: 1.4rem;
   justify-content: center;
   align-items: start;
 }
 
 .essay-side {
-  position: sticky;
-  top: 6rem;
-  display: grid;
-  gap: 1.4rem;
+  position: static;
   align-self: start;
+  max-width: 46rem;
 }
 
-.essay-outline,
-.essay-facts {
+.essay-outline {
+  border: 1px solid rgba(197, 180, 157, .18);
+  border-radius: 8px;
+  padding: .85rem 1rem 1rem;
+  background: rgba(10, 12, 8, .24);
   color: #8f8466;
   font-family: var(--font-sans);
   font-size: .88rem;
   line-height: 1.35;
 }
 
-.essay-outline p,
-.essay-facts p {
+.essay-outline p {
   margin-bottom: .85rem;
   color: #b8793a;
   font-family: var(--font-mono);
@@ -85,60 +85,44 @@
 }
 
 .essay-outline nav {
-  display: grid;
-  gap: .55rem;
-  border-left: 1px solid rgba(197, 180, 157, .22);
-  padding-left: .85rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem .6rem;
 }
 
 .essay-outline a,
 .essay-outline span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.9rem;
+  border: 1px solid rgba(197, 180, 157, .16);
+  border-radius: 999px;
+  padding: .28rem .62rem;
   color: inherit;
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  line-height: 1.25;
   text-decoration: none;
+  transition: border-color .18s ease, color .18s ease, background .18s ease;
 }
 
 .essay-outline a:hover {
+  border-color: rgba(184, 121, 58, .46);
   color: #f2e6c7;
 }
 
 .essay-outline a.is-active {
+  border-color: rgba(184, 121, 58, .58);
+  background: rgba(184, 121, 58, .1);
   color: #b8793a;
 }
 
 .essay-outline a.is-active::before {
-  content: "";
-  display: inline-block;
-  width: .42rem;
-  height: .42rem;
-  margin-right: .38rem;
-  border-radius: 50%;
-  background: #b8793a;
-  box-shadow: 0 0 14px rgba(184, 121, 58, .5);
-  vertical-align: .08em;
+  content: none;
 }
 
 .essay-outline a.is-child {
-  padding-left: .75rem;
-  font-size: .82rem;
-}
-
-.essay-facts {
-  border-left: 1px solid rgba(197, 180, 157, .22);
-  padding-left: .85rem;
-}
-
-.essay-facts ul {
-  display: grid;
-  gap: .46rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.essay-facts li {
-  font-family: var(--font-mono);
-  font-size: .74rem;
-  text-transform: uppercase;
+  color: #7f765d;
 }
 
 .essay-content {

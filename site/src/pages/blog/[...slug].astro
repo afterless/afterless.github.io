@@ -36,7 +36,7 @@ const outline = headings.filter((heading) => heading.depth >= 2 && heading.depth
     </header>
 
     <div class="essay-grid">
-      <aside class="essay-side" aria-label="Article navigation and metadata">
+      <aside class="essay-side" aria-label="Article outline">
         <div class="essay-outline">
           <p>Outline</p>
           {
@@ -56,22 +56,6 @@ const outline = headings.filter((heading) => heading.depth >= 2 && heading.depth
               <span>No headings yet.</span>
             )
           }
-        </div>
-        <div class="essay-facts">
-          <p>About this post</p>
-          <ul>
-            <li>{readingMinutes} min read</li>
-            <li>Published {formattedDate}</li>
-            {post.data.updated && (
-              <li>
-                Updated {post.data.updated.toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </li>
-            )}
-          </ul>
         </div>
       </aside>
 
