@@ -21,8 +21,7 @@
     "new:essay": "node scripts/new-post.mjs --kind essay",
     "publish:post": "node scripts/publish-post.mjs"
   },
-  "dependencies": {
-    "@tailwindcss/typography": "^0.5.19",
+  "devDependencies": {
     "@tailwindcss/vite": "^4.2.0",
     "astro": "^5.17.1",
     "tailwindcss": "^4.2.0"
