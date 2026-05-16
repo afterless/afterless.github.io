@@ -1,10 +1,18 @@
 .palette-studies {
+  box-sizing: border-box;
+  width: 100%;
   min-height: 100vh;
   padding: clamp(2rem, 5vw, 4rem);
   background:
     radial-gradient(ellipse at 80% 8%, rgba(133, 98, 55, .12), transparent 34%),
     linear-gradient(180deg, #090908 0%, #11100d 56%, #080807 100%);
   color: #efe4d0;
+}
+
+.palette-studies *,
+.palette-studies *::before,
+.palette-studies *::after {
+  box-sizing: border-box;
 }
 
 .palette-study-header {
@@ -35,18 +43,21 @@
 
 .palette-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
   gap: 1rem;
+  width: 100%;
   max-width: 86rem;
   margin: 0 auto;
 }
 
 .palette-card {
+  min-width: 0;
   border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
   border-radius: 8px;
   overflow: hidden;
   background: var(--paper);
   box-shadow: 0 18px 70px var(--site-shadow);
+  isolation: isolate;
 }
 
 .palette-preview {
@@ -62,6 +73,8 @@
   content: "";
   position: absolute;
   inset: 0;
+  z-index: 0;
+  pointer-events: none;
   background:
     repeating-linear-gradient(90deg, rgba(255, 255, 255, calc(var(--grain-opacity) * .18)) 0 1px, transparent 1px 8px),
     linear-gradient(90deg, color-mix(in srgb, var(--paper) 80%, transparent), transparent 54%);
@@ -70,6 +83,7 @@
 
 .palette-door {
   position: absolute;
+  z-index: 1;
   width: 2.2rem;
   height: 4.8rem;
   border: 1px solid color-mix(in srgb, var(--accent) 48%, #f3dfbf);
@@ -104,6 +118,7 @@
 
 .palette-mini-panel {
   position: absolute;
+  z-index: 2;
   right: 1rem;
   bottom: 1rem;
   left: 1rem;
@@ -137,6 +152,7 @@
 .palette-card-body {
   display: grid;
   gap: .7rem;
+  min-width: 0;
   padding: 1rem;
   color: var(--text);
 }
@@ -160,6 +176,7 @@
 
 .palette-swatches {
   display: flex;
+  flex-wrap: wrap;
   gap: .35rem;
   padding-top: .25rem;
 }
@@ -175,5 +192,11 @@
 @media (max-width: 720px) {
   .palette-studies {
     padding: 1.25rem;
+  }
+}
+
+@media (max-width: 540px) {
+  .palette-grid {
+    grid-template-columns: 1fr;
   }
 }
