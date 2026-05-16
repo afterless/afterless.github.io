@@ -173,6 +173,28 @@ equations with eval data, ablations, or a concrete protocol.
       return `${Math.round(value * 100)}%`;
     }
 
+    function rgbParts(color) {
+      return color.match(/\d+(\.\d+)?/g)?.slice(0, 3).map(Number) ?? [0, 0, 0];
+    }
+
+    function relativeLuminance(color) {
+      const [r, g, b] = rgbParts(color).map((channel) => {
+        const normalized = channel / 255;
+        return normalized <= 0.03928
+          ? normalized / 12.92
+          : Math.pow((normalized + 0.055) / 1.055, 2.4);
+      });
+      return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    }
+
+    function barLabelPaint(background) {
+      const useDarkText = relativeLuminance(background) > 0.43;
+      return {
+        fill: useDarkText ? "#10110e" : "#fff4dc",
+        stroke: useDarkText ? "rgba(255, 246, 222, 0.58)" : "rgba(8, 7, 6, 0.72)",
+      };
+    }
+
     function svgEl(name) {
       return document.createElementNS("http://www.w3.org/2000/svg", name);
     }
@@ -209,6 +231,11 @@ equations with eval data, ablations, or a concrete protocol.
           text.setAttribute("y", y + 32);
           text.setAttribute("text-anchor", "middle");
           text.setAttribute("class", "bar-label");
+          const labelPaint = barLabelPaint(colors[key]);
+          text.style.fill = labelPaint.fill;
+          text.style.stroke = labelPaint.stroke;
+          text.style.strokeWidth = "2.8px";
+          text.style.paintOrder = "stroke fill";
           text.textContent = pct(value);
           labels.append(text);
         }

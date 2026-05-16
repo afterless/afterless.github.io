@@ -252,8 +252,7 @@
   stroke: color-mix(in srgb, var(--accent) 34%, transparent);
 }
 
-.theme-preview-shell .axis-label,
-.theme-preview-shell .bar-label {
+.theme-preview-shell .axis-label {
   fill: var(--muted);
 }
 

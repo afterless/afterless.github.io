@@ -392,6 +392,10 @@
 .essay-content .bar-label {
   fill: #11140e;
   font-weight: 700;
+  paint-order: stroke fill;
+  stroke: rgba(255, 246, 222, .62);
+  stroke-linejoin: round;
+  stroke-width: 2.8px;
 }
 
 .essay-content .explorable-readout {
