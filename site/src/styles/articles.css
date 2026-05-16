@@ -1,31 +1,31 @@
 .essay-shell {
-  color: #f2e6c7;
+  color: var(--text);
 }
 
 .essay-header {
   max-width: 48rem;
   margin: 0 auto 3rem;
   padding-bottom: 2rem;
-  border-bottom: 1px solid rgba(197, 180, 157, .22);
+  border-bottom: 1px solid color-mix(in srgb, var(--muted) 22%, transparent);
 }
 
 .essay-back {
   display: inline-flex;
   align-items: center;
   gap: .35rem;
-  color: #8f8466;
+  color: var(--muted);
   font-family: var(--font-sans);
   font-size: .9rem;
   text-decoration: none;
 }
 
 .essay-back:hover {
-  color: #b8793a;
+  color: var(--accent);
 }
 
 .essay-header h1 {
   margin-top: .8rem;
-  color: #f2e6c7;
+  color: var(--text);
   font-size: 4rem;
   font-weight: 600;
   line-height: 1.02;
@@ -35,7 +35,7 @@
 .essay-description {
   max-width: 40rem;
   margin-top: 1.1rem;
-  color: #b9ad88;
+  color: color-mix(in srgb, var(--muted) 82%, var(--text));
   font-size: 1.28rem;
   line-height: 1.55;
 }
@@ -45,7 +45,7 @@
   flex-wrap: wrap;
   gap: .55rem 1rem;
   margin-top: 1.3rem;
-  color: #8f8466;
+  color: var(--muted);
   font-family: var(--font-mono);
   font-size: .74rem;
   text-transform: uppercase;
@@ -66,11 +66,11 @@
 }
 
 .essay-outline {
-  border: 1px solid rgba(197, 180, 157, .18);
+  border: 1px solid color-mix(in srgb, var(--muted) 20%, transparent);
   border-radius: 8px;
   padding: .85rem 1rem 1rem;
-  background: rgba(10, 12, 8, .24);
-  color: #8f8466;
+  background: color-mix(in srgb, var(--panel) 62%, transparent);
+  color: var(--muted);
   font-family: var(--font-sans);
   font-size: .88rem;
   line-height: 1.35;
@@ -78,7 +78,7 @@
 
 .essay-outline p {
   margin-bottom: .85rem;
-  color: #b8793a;
+  color: var(--accent);
   font-family: var(--font-mono);
   font-size: .72rem;
   text-transform: uppercase;
@@ -95,7 +95,7 @@
   display: inline-flex;
   align-items: center;
   min-height: 1.9rem;
-  border: 1px solid rgba(197, 180, 157, .16);
+  border: 1px solid color-mix(in srgb, var(--muted) 18%, transparent);
   border-radius: 999px;
   padding: .28rem .62rem;
   color: inherit;
@@ -107,14 +107,14 @@
 }
 
 .essay-outline a:hover {
-  border-color: rgba(184, 121, 58, .46);
-  color: #f2e6c7;
+  border-color: color-mix(in srgb, var(--accent) 58%, transparent);
+  color: var(--text);
 }
 
 .essay-outline a.is-active {
-  border-color: rgba(184, 121, 58, .58);
-  background: rgba(184, 121, 58, .1);
-  color: #b8793a;
+  border-color: color-mix(in srgb, var(--accent) 58%, transparent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--accent);
 }
 
 .essay-outline a.is-active::before {
@@ -122,12 +122,12 @@
 }
 
 .essay-outline a.is-child {
-  color: #7f765d;
+  color: color-mix(in srgb, var(--muted) 76%, var(--ink));
 }
 
 .essay-content {
   max-width: 46rem;
-  color: #ded0ab;
+  color: color-mix(in srgb, var(--muted) 82%, var(--text));
   font-size: 1.16rem;
   line-height: 1.78;
 }
@@ -138,7 +138,7 @@
 
 .essay-content h2,
 .essay-content h3 {
-  color: #f2e6c7;
+  color: var(--text);
   font-weight: 600;
   line-height: 1.15;
   text-wrap: balance;
@@ -147,7 +147,7 @@
 .essay-content h2 {
   margin-top: 2.8rem;
   padding-top: 1.2rem;
-  border-top: 1px solid rgba(197, 180, 157, .18);
+  border-top: 1px solid color-mix(in srgb, var(--muted) 22%, transparent);
   font-size: 1.85rem;
 }
 
@@ -157,27 +157,27 @@
 }
 
 .essay-content a {
-  color: #b8793a;
+  color: var(--accent);
   text-decoration: underline;
-  text-decoration-color: rgba(184, 121, 58, .35);
+  text-decoration-color: color-mix(in srgb, var(--accent) 42%, transparent);
   text-underline-offset: .2em;
 }
 
 .essay-content code {
   border-radius: 4px;
-  background: rgba(245, 234, 216, .08);
+  background: color-mix(in srgb, var(--text) 9%, transparent);
   padding: .08rem .28rem;
-  color: #f2e6c7;
+  color: var(--text);
   font-family: var(--font-mono);
   font-size: .9em;
 }
 
 .essay-content pre {
   overflow-x: auto;
-  border: 1px solid rgba(197, 180, 157, .18);
+  border: 1px solid color-mix(in srgb, var(--muted) 20%, transparent);
   border-radius: 8px;
   padding: 1rem;
-  background: rgba(0, 0, 0, .24);
+  background: color-mix(in srgb, var(--ink) 72%, transparent);
 }
 
 .essay-content ul,
@@ -186,26 +186,26 @@
 }
 
 .essay-content blockquote {
-  border-left: 3px solid rgba(184, 121, 58, .6);
+  border-left: 3px solid color-mix(in srgb, var(--accent) 68%, transparent);
   padding-left: 1rem;
-  color: #b9ad88;
+  color: color-mix(in srgb, var(--muted) 82%, var(--text));
 }
 
 .essay-content .explorable-demo {
-  --figure-useful: #8ea36f;
-  --figure-caught: #b8793a;
-  --figure-blocked: #7d6b8f;
-  --figure-risk: #c7553d;
+  --figure-useful: color-mix(in srgb, var(--accent-two) 78%, var(--text));
+  --figure-caught: var(--accent);
+  --figure-blocked: var(--accent-two);
+  --figure-risk: color-mix(in srgb, var(--accent) 62%, #b01826);
   position: relative;
   margin: 2.5rem 0;
-  border: 1px solid rgba(197, 180, 157, .24);
+  border: 1px solid color-mix(in srgb, var(--muted) 20%, transparent);
   border-radius: 8px;
   padding: clamp(1rem, 3vw, 1.4rem);
   background:
-    radial-gradient(ellipse at 86% 8%, rgba(125, 107, 143, .12), transparent 32%),
-    radial-gradient(ellipse at 8% 95%, rgba(184, 121, 58, .1), transparent 30%),
-    linear-gradient(180deg, rgba(24, 24, 17, .9), rgba(10, 12, 8, .92));
-  box-shadow: 0 24px 80px rgba(0, 0, 0, .18);
+    radial-gradient(ellipse at 86% 8%, color-mix(in srgb, var(--accent-two) 18%, transparent), transparent 32%),
+    radial-gradient(ellipse at 8% 95%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 30%),
+    color-mix(in srgb, var(--panel) 94%, var(--ink));
+  box-shadow: 0 24px 80px var(--site-shadow);
   overflow: hidden;
 }
 
@@ -215,8 +215,8 @@
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(90deg, rgba(242, 230, 199, .035) 1px, transparent 1px),
-    linear-gradient(rgba(242, 230, 199, .028) 1px, transparent 1px);
+    linear-gradient(90deg, color-mix(in srgb, var(--text) 5%, transparent) 1px, transparent 1px),
+    linear-gradient(color-mix(in srgb, var(--text) 4%, transparent) 1px, transparent 1px);
   background-size: 3.25rem 3.25rem;
   opacity: .32;
 }
@@ -228,13 +228,13 @@
 
 .essay-content .explorable-header {
   margin-bottom: 1.2rem;
-  border-bottom: 1px solid rgba(197, 180, 157, .18);
+  border-bottom: 1px solid color-mix(in srgb, var(--muted) 18%, transparent);
   padding-bottom: .8rem;
 }
 
 .essay-content .explorable-header p {
   margin: 0;
-  color: #b8793a;
+  color: var(--accent);
   font-family: var(--font-mono);
   font-size: .72rem;
   text-transform: uppercase;
@@ -242,7 +242,7 @@
 
 .essay-content .explorable-header h2 {
   margin: .35rem 0 0;
-  color: #f2e6c7;
+  color: var(--text);
   font-size: clamp(1.45rem, 3vw, 2rem);
 }
 
@@ -260,7 +260,7 @@
   display: block;
   width: .42rem;
   height: 1.25rem;
-  border: 1px solid rgba(184, 121, 58, .48);
+  border: 1px solid color-mix(in srgb, var(--accent) 52%, transparent);
   border-bottom-width: .22rem;
   border-radius: 2px;
   transform: translateY(var(--door-lift, 0)) rotate(var(--door-tilt, 0deg));
@@ -297,7 +297,7 @@
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: .75rem;
-  border-bottom: 1px solid rgba(197, 180, 157, .16);
+  border-bottom: 1px solid color-mix(in srgb, var(--muted) 18%, transparent);
   padding-bottom: 1rem;
 }
 
@@ -307,7 +307,7 @@
   gap: .45rem .5rem;
   align-items: center;
   min-width: 0;
-  color: #ded0ab;
+  color: color-mix(in srgb, var(--muted) 82%, var(--text));
   font-size: .82rem;
   line-height: 1.25;
 }
@@ -315,12 +315,12 @@
 .essay-content .explorable-controls input {
   grid-column: 1 / -1;
   width: 100%;
-  accent-color: #b8793a;
+  accent-color: var(--accent);
 }
 
 .essay-content .explorable-controls output {
   justify-self: end;
-  color: #8f8466;
+  color: var(--muted);
   font-family: var(--font-mono);
   font-size: .76rem;
 }
@@ -334,9 +334,9 @@
   display: block;
   width: 100%;
   height: auto;
-  border: 1px solid rgba(197, 180, 157, .14);
+  border: 1px solid color-mix(in srgb, var(--muted) 20%, transparent);
   border-radius: 6px;
-  background: rgba(5, 7, 5, .38);
+  background: color-mix(in srgb, var(--ink) 72%, transparent);
 }
 
 .essay-content .explorable-figure figcaption {
@@ -347,7 +347,7 @@
   width: 100%;
   max-width: 100%;
   margin-top: .65rem;
-  color: #8f8466;
+  color: var(--muted);
   font-size: .88rem;
   line-height: 1.5;
   white-space: normal;
@@ -357,7 +357,7 @@
 }
 
 .essay-content .explorable-figure figcaption strong {
-  color: #b8793a;
+  color: var(--accent);
   font-family: var(--font-mono);
   font-size: .75rem;
   font-weight: 500;
@@ -370,13 +370,13 @@
 }
 
 .essay-content .axis {
-  stroke: rgba(197, 180, 157, .24);
+  stroke: color-mix(in srgb, var(--muted) 30%, transparent);
   stroke-width: 1;
 }
 
 .essay-content .threshold-arc {
   fill: none;
-  stroke: rgba(184, 121, 58, .3);
+  stroke: color-mix(in srgb, var(--accent) 34%, transparent);
   stroke-dasharray: 2 7;
   stroke-linecap: round;
   stroke-width: 1.5;
@@ -384,7 +384,7 @@
 
 .essay-content .axis-label,
 .essay-content .bar-label {
-  fill: #b9ad88;
+  fill: var(--muted);
   font-family: var(--font-mono);
   font-size: 11px;
 }
@@ -406,13 +406,13 @@
 }
 
 .essay-content .explorable-readout div {
-  border-top: 1px solid rgba(197, 180, 157, .18);
+  border-top: 1px solid color-mix(in srgb, var(--muted) 18%, transparent);
   padding-top: .65rem;
 }
 
 .essay-content .explorable-readout span {
   display: block;
-  color: #8f8466;
+  color: var(--muted);
   font-family: var(--font-mono);
   font-size: .68rem;
   text-transform: uppercase;
@@ -421,7 +421,7 @@
 .essay-content .explorable-readout strong {
   display: block;
   margin-top: .2rem;
-  color: #f2e6c7;
+  color: var(--text);
   font-size: 1.4rem;
   font-weight: 600;
 }
@@ -432,13 +432,13 @@
 
 .essay-content .frontier-line {
   fill: none;
-  stroke: #b8793a;
+  stroke: var(--accent);
   stroke-width: 3;
 }
 
 .essay-content .frontier-point {
-  fill: #7d6b8f;
-  stroke: #f2e6c7;
+  fill: var(--accent-two);
+  stroke: var(--text);
   stroke-width: 1;
 }
 
@@ -449,8 +449,8 @@
   max-width: 46rem;
   margin: 3rem auto 0;
   padding-top: 1.2rem;
-  border-top: 1px solid rgba(185, 173, 136, .2);
-  color: #8f8466;
+  border-top: 1px solid color-mix(in srgb, var(--muted) 22%, transparent);
+  color: var(--muted);
   font-family: var(--font-mono);
   font-size: .8rem;
 }

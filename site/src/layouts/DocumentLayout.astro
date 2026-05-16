@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { cssVars, defaultSiteTheme } from "../lib/themes";
 
 interface Props {
   title: string;
@@ -24,7 +25,7 @@ const { title, description = "Ayush Panda" } = Astro.props;
     />
     <title>{title}</title>
   </head>
-  <body>
+  <body style={cssVars(defaultSiteTheme)}>
     <slot />
   </body>
 </html>

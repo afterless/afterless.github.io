@@ -1,8 +1,8 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-accent: #b8793a;
-  --color-accent-dark: #8d542f;
+  --color-accent: #bb6950;
+  --color-accent-dark: #8b6aa2;
   --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
   --font-sans: "Source Sans 3", ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Code", "Fira Code", monospace;
@@ -16,11 +16,11 @@ body {
   font-family: var(--font-serif);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #151313;
+  background: var(--ink);
 }
 
 ::selection {
-  background: rgba(239, 68, 68, 0.3);
+  background: color-mix(in srgb, var(--accent) 34%, transparent);
 }
 
 ::-webkit-scrollbar {
@@ -42,9 +42,9 @@ body {
 
 .site-paper-texture {
   background:
-    radial-gradient(ellipse at 82% 12%, rgba(185, 86, 55, .12), transparent 34%),
-    linear-gradient(115deg, rgba(180, 78, 50, .08), transparent 38%, rgba(47, 127, 114, .07) 82%, transparent),
-    repeating-linear-gradient(90deg, rgba(120, 113, 108, .06) 0 1px, transparent 1px 9px);
+    radial-gradient(ellipse at 82% 12%, color-mix(in srgb, var(--accent) 13%, transparent), transparent 34%),
+    linear-gradient(115deg, color-mix(in srgb, var(--accent) 8%, transparent), transparent 38%, color-mix(in srgb, var(--accent-two) 7%, transparent) 82%, transparent),
+    repeating-linear-gradient(90deg, color-mix(in srgb, var(--muted) 6%, transparent) 0 1px, transparent 1px 9px);
 }
 
 .page-shell {
@@ -54,7 +54,7 @@ body {
 
 .dark .page-shell {
   background:
-    radial-gradient(ellipse at 76% 8%, rgba(125, 107, 143, .16), transparent 34%),
-    radial-gradient(ellipse at 16% 24%, rgba(184, 121, 58, .1), transparent 30%),
-    linear-gradient(180deg, #0e120d 0%, #17160f 52%, #0b0e0a 100%);
+    radial-gradient(ellipse at 76% 8%, color-mix(in srgb, var(--accent-two) 18%, transparent), transparent 34%),
+    radial-gradient(ellipse at 16% 24%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 30%),
+    linear-gradient(180deg, var(--ink) 0%, var(--paper) 52%, var(--ink) 100%);
 }

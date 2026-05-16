@@ -3,7 +3,7 @@
 }
 
 .dark .subpage-stage {
-  color: #f2e6c7;
+  color: var(--text);
 }
 
 .subpage-stage::before {
@@ -12,20 +12,20 @@
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(90deg, rgba(78, 95, 59, .08) 0 1px, transparent 1px),
-    linear-gradient(180deg, rgba(168, 111, 40, .08) 0 1px, transparent 1px);
+    linear-gradient(90deg, color-mix(in srgb, var(--accent-two) 8%, transparent) 0 1px, transparent 1px),
+    linear-gradient(180deg, color-mix(in srgb, var(--accent) 8%, transparent) 0 1px, transparent 1px);
   background-size: 4.5rem 4.5rem;
   mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
   opacity: .42;
 }
 
 .subpage-nav {
-  box-shadow: 0 1px 0 rgba(184, 121, 58, .12);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--accent) 12%, transparent);
 }
 
 .dark .subpage-nav {
   background:
-    linear-gradient(90deg, rgba(14, 18, 13, .94), rgba(23, 22, 15, .88));
+    linear-gradient(90deg, color-mix(in srgb, var(--ink) 94%, transparent), color-mix(in srgb, var(--paper) 88%, transparent));
 }
 
 .subpage-main {
@@ -41,7 +41,7 @@
   position: relative;
   max-width: 52rem;
   padding-bottom: 2rem;
-  border-bottom: 1px solid rgba(122, 112, 84, .28);
+  border-bottom: 1px solid color-mix(in srgb, var(--muted) 28%, transparent);
 }
 
 .subpage-hero::after {
@@ -51,7 +51,7 @@
   bottom: -1px;
   width: min(18rem, 42vw);
   height: 1px;
-  background: linear-gradient(90deg, transparent, #b8793a, transparent);
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
 }
 
 .subpage-kicker,
@@ -71,7 +71,7 @@
 }
 
 .dark .subpage-kicker {
-  color: #b8793a;
+  color: var(--accent);
 }
 
 .subpage-hero h1 {
@@ -85,7 +85,7 @@
 }
 
 .dark .subpage-hero h1 {
-  color: #f2e6c7;
+  color: var(--text);
 }
 
 .subpage-hero p {
@@ -97,7 +97,7 @@
 }
 
 .dark .subpage-hero p {
-  color: #b9ad88;
+  color: color-mix(in srgb, var(--muted) 82%, var(--text));
 }
 
 .profile-ledger {
@@ -109,7 +109,7 @@
 
 .profile-card,
 .text-panel {
-  border-left: 2px solid rgba(184, 121, 58, .58);
+  border-left: 2px solid color-mix(in srgb, var(--accent) 58%, transparent);
   padding-left: 1rem;
 }
 
@@ -138,8 +138,8 @@
 .profile-card a:hover,
 .personal-ring a:hover,
 .essay-end a:hover {
-  color: #b8793a;
-  text-decoration-color: #b8793a;
+  color: var(--accent);
+  text-decoration-color: var(--accent);
 }
 
 .ledger-list {
@@ -496,12 +496,12 @@
   position: relative;
   display: block;
   min-height: 7.25rem;
-  border: 1px solid rgba(185, 173, 136, .2);
+  border: 1px solid color-mix(in srgb, var(--muted) 20%, transparent);
   border-radius: 8px;
   padding: 1rem clamp(10.5rem, 24vw, 13rem) 1rem 1rem;
   background:
-    linear-gradient(90deg, rgba(12, 14, 9, .42), rgba(12, 14, 9, .3)),
-    radial-gradient(ellipse at 86% 50%, rgba(125, 107, 143, .1), transparent 34%);
+    linear-gradient(90deg, color-mix(in srgb, var(--ink) 42%, transparent), color-mix(in srgb, var(--ink) 30%, transparent)),
+    radial-gradient(ellipse at 86% 50%, color-mix(in srgb, var(--accent-two) 12%, transparent), transparent 34%);
   overflow: hidden;
 }
 
@@ -518,7 +518,7 @@
 }
 
 .archive-search-panel span {
-  color: #b8793a;
+  color: var(--accent);
   font-family: var(--font-mono);
   font-size: .72rem;
   text-transform: uppercase;
@@ -526,24 +526,24 @@
 
 .archive-search-panel input {
   width: 100%;
-  border: 1px solid rgba(185, 173, 136, .22);
+  border: 1px solid color-mix(in srgb, var(--muted) 22%, transparent);
   border-radius: 999px;
   padding: .72rem .9rem;
-  background: rgba(5, 7, 5, .58);
-  color: #f2e6c7;
+  background: color-mix(in srgb, var(--ink) 70%, transparent);
+  color: var(--text);
   font-family: var(--font-sans);
   outline: none;
 }
 
 .archive-search-panel input:focus {
-  border-color: rgba(184, 121, 58, .68);
-  box-shadow: 0 0 0 3px rgba(184, 121, 58, .12);
+  border-color: color-mix(in srgb, var(--accent) 68%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 12%, transparent);
 }
 
 .archive-search-copy p {
   overflow: hidden;
   max-height: 2.7rem;
-  color: #8f8466;
+  color: var(--muted);
   font-size: .92rem;
   line-height: 1.45;
   opacity: .7;
@@ -552,7 +552,7 @@
 
 .archive-search-copy p.is-visible {
   max-height: 8rem;
-  color: #ded0ab;
+  color: color-mix(in srgb, var(--muted) 82%, var(--text));
   opacity: 1;
 }
 
@@ -579,7 +579,7 @@
   position: absolute;
   inset: .15rem -.15rem .05rem;
   border-radius: 50%;
-  background: radial-gradient(ellipse at 50% 52%, rgba(125, 107, 143, .12), transparent 72%);
+  background: radial-gradient(ellipse at 50% 52%, color-mix(in srgb, var(--accent-two) 12%, transparent), transparent 72%);
 }
 
 .archive-question-seal svg {
@@ -591,7 +591,7 @@
 
 .archive-question-seal polyline {
   fill: none;
-  stroke: rgba(185, 173, 136, .34);
+  stroke: color-mix(in srgb, var(--muted) 34%, transparent);
   stroke-width: .75;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -607,8 +607,8 @@
   border: 1px solid transparent;
   border-radius: 50%;
   padding: 0;
-  background: color-mix(in srgb, #7d6b8f 64%, #f2e6c7);
-  box-shadow: 0 0 10px rgba(125, 107, 143, .34);
+  background: color-mix(in srgb, var(--accent-two) 64%, var(--text));
+  box-shadow: 0 0 10px color-mix(in srgb, var(--accent-two) 34%, transparent);
   color: transparent;
   cursor: pointer;
   transform: translate(-50%, -50%);
@@ -618,9 +618,9 @@
 .archive-question-seal button:hover,
 .archive-question-seal button:focus-visible,
 .archive-question-seal button.is-active {
-  border-color: rgba(242, 230, 199, .72);
-  background: #b8793a;
-  box-shadow: 0 0 22px rgba(184, 121, 58, .58);
+  border-color: color-mix(in srgb, var(--text) 72%, transparent);
+  background: var(--accent);
+  box-shadow: 0 0 22px color-mix(in srgb, var(--accent) 58%, transparent);
   transform: translate(-50%, -50%) scale(1.22);
 }
 
