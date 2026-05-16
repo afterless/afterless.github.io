@@ -9,14 +9,6 @@ const args = new Set(process.argv.slice(2));
 
 const steps = [
   {
-    name: "content",
-    command: ["node", "scripts/check-content.mjs"],
-  },
-  {
-    name: "writing",
-    command: ["node", "scripts/check-writing.mjs"],
-  },
-  {
     name: "tests",
     command: [npm, "test"],
   },

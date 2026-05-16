@@ -1,7 +1,7 @@
-#!/usr/bin/env node
+import assert from "node:assert/strict";
 import { readdirSync, readFileSync } from "node:fs";
-import { join, relative, sep } from "node:path";
-import { dirname } from "node:path";
+import { dirname, join, relative, sep } from "node:path";
+import test from "node:test";
 import { fileURLToPath } from "node:url";
 
 const SITE_ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
@@ -20,41 +20,35 @@ const redundantTags = new Set([
   "explorable",
 ]);
 
-const failures = [];
-const seenSlugs = new Set();
-const seenTitles = new Map();
+test("blog content follows metadata and raw HTML conventions", () => {
+  const failures = [];
+  const seenSlugs = new Set();
+  const seenTitles = new Map();
 
-for (const filePath of markdownFiles(CONTENT_DIR)) {
-  checkPost(filePath);
-}
-
-if (failures.length > 0) {
-  console.error("Content checks failed:");
-  for (const failure of failures) {
-    console.error(`- ${failure}`);
+  for (const filePath of markdownFiles(CONTENT_DIR)) {
+    checkPost(filePath, { failures, seenSlugs, seenTitles });
   }
-  process.exit(1);
-}
 
-console.log("Content checks passed.");
+  assertNoFailures(failures);
+});
 
-function checkPost(filePath) {
+function checkPost(filePath, context) {
   const source = readFileSync(filePath, "utf8");
   const displayPath = relative(SITE_ROOT, filePath).split(sep).join("/");
   const slug = displayPath.replace(/^src\/content\/blog\//, "").replace(/\.md$/, "");
 
   if (!/^[a-z0-9][a-z0-9/-]*[a-z0-9]$/.test(slug)) {
-    fail(displayPath, `slug "${slug}" should be lowercase words separated by hyphens`);
+    fail(context.failures, displayPath, `slug "${slug}" should be lowercase words separated by hyphens`);
   }
 
-  if (seenSlugs.has(slug)) {
-    fail(displayPath, `duplicate slug "${slug}"`);
+  if (context.seenSlugs.has(slug)) {
+    fail(context.failures, displayPath, `duplicate slug "${slug}"`);
   }
-  seenSlugs.add(slug);
+  context.seenSlugs.add(slug);
 
   const parsed = splitFrontmatter(source);
   if (!parsed) {
-    fail(displayPath, "missing YAML frontmatter");
+    fail(context.failures, displayPath, "missing YAML frontmatter");
     return;
   }
 
@@ -65,45 +59,45 @@ function checkPost(filePath) {
   const kind = frontmatter.get("kind");
   const status = frontmatter.get("status");
   const draft = frontmatter.get("draft");
-  const tags = parseTags(frontmatter.get("tags"), displayPath);
+  const tags = parseTags(frontmatter.get("tags"), displayPath, context.failures);
 
-  requireField(displayPath, "title", title);
-  requireField(displayPath, "date", date);
-  requireField(displayPath, "description", description);
+  requireField(context.failures, displayPath, "title", title);
+  requireField(context.failures, displayPath, "date", date);
+  requireField(context.failures, displayPath, "description", description);
 
   if (title) {
     const normalizedTitle = title.toLowerCase();
-    const previousPath = seenTitles.get(normalizedTitle);
+    const previousPath = context.seenTitles.get(normalizedTitle);
     if (previousPath) {
-      fail(displayPath, `title duplicates ${previousPath}`);
+      fail(context.failures, displayPath, `title duplicates ${previousPath}`);
     }
-    seenTitles.set(normalizedTitle, displayPath);
+    context.seenTitles.set(normalizedTitle, displayPath);
   }
 
   if (kind && !validKinds.has(kind)) {
-    fail(displayPath, `kind "${kind}" is not one of ${[...validKinds].join(", ")}`);
+    fail(context.failures, displayPath, `kind "${kind}" is not one of ${[...validKinds].join(", ")}`);
   }
 
   if (status && !validStatuses.has(status)) {
-    fail(displayPath, `status "${status}" is not one of ${[...validStatuses].join(", ")}`);
+    fail(context.failures, displayPath, `status "${status}" is not one of ${[...validStatuses].join(", ")}`);
   }
 
   if (draft !== undefined && !["true", "false"].includes(draft)) {
-    fail(displayPath, "draft must be true or false");
+    fail(context.failures, displayPath, "draft must be true or false");
   }
 
   if (draft !== "true" && /TODO:/i.test(`${title ?? ""} ${description ?? ""}`)) {
-    fail(displayPath, "published posts should not keep TODO frontmatter");
+    fail(context.failures, displayPath, "published posts should not keep TODO frontmatter");
   }
 
   for (const tag of tags) {
     const normalizedTag = tag.toLowerCase();
     if (redundantTags.has(normalizedTag)) {
-      fail(displayPath, `tag "${tag}" is redundant; use kind/status or the figure itself`);
+      fail(context.failures, displayPath, `tag "${tag}" is redundant; use kind/status or the figure itself`);
     }
   }
 
-  checkInteractiveBlocks(displayPath, parsed.body);
+  checkInteractiveBlocks(context.failures, displayPath, parsed.body);
 }
 
 function markdownFiles(dir) {
@@ -133,42 +127,42 @@ function parseFrontmatter(frontmatter) {
   return fields;
 }
 
-function parseTags(rawValue, displayPath) {
+function parseTags(rawValue, displayPath, failures) {
   if (!rawValue) return [];
   if (!rawValue.startsWith("[")) {
-    fail(displayPath, "tags should use an inline array, e.g. tags: [\"control\"]");
+    fail(failures, displayPath, 'tags should use an inline array, e.g. tags: ["control"]');
     return [];
   }
 
   try {
     const value = JSON.parse(rawValue.replace(/'/g, '"'));
     if (!Array.isArray(value) || value.some((tag) => typeof tag !== "string")) {
-      fail(displayPath, "tags must be an array of strings");
+      fail(failures, displayPath, "tags must be an array of strings");
       return [];
     }
     return value;
   } catch {
-    fail(displayPath, "tags are not parseable as an inline array");
+    fail(failures, displayPath, "tags are not parseable as an inline array");
     return [];
   }
 }
 
-function checkInteractiveBlocks(displayPath, body) {
+function checkInteractiveBlocks(failures, displayPath, body) {
   const sectionCount = count(body, /<section\s+class="explorable-demo"/g);
   if (sectionCount === 0) return;
 
   const closingSectionCount = count(body, /<\/section>/g);
   if (closingSectionCount < sectionCount) {
-    fail(displayPath, "interactive section is missing a closing </section>");
+    fail(failures, displayPath, "interactive section is missing a closing </section>");
   }
 
   if (!body.includes('<script type="module">')) {
-    fail(displayPath, "interactive posts should keep figure logic in a local module script");
+    fail(failures, displayPath, "interactive posts should keep figure logic in a local module script");
   }
 
   for (const [index, line] of body.split("\n").entries()) {
     if (/^\s+<(section|script)\b/.test(line)) {
-      fail(displayPath, `raw HTML starts indented on line ${index + 1}; Markdown may parse it as code`);
+      fail(failures, displayPath, `raw HTML starts indented on line ${index + 1}; Markdown may parse it as code`);
     }
   }
 }
@@ -177,8 +171,8 @@ function count(value, pattern) {
   return [...value.matchAll(pattern)].length;
 }
 
-function requireField(displayPath, field, value) {
-  if (!value) fail(displayPath, `missing required field "${field}"`);
+function requireField(failures, displayPath, field, value) {
+  if (!value) fail(failures, displayPath, `missing required field "${field}"`);
 }
 
 function unquote(value) {
@@ -191,6 +185,12 @@ function unquote(value) {
   return value;
 }
 
-function fail(displayPath, message) {
+function fail(failures, displayPath, message) {
   failures.push(`${displayPath}: ${message}`);
+}
+
+function assertNoFailures(failures) {
+  if (failures.length > 0) {
+    assert.fail(`Content conventions failed:\n- ${failures.join("\n- ")}`);
+  }
 }

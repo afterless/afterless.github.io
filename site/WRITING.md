@@ -89,9 +89,9 @@ The workflow mirrors a heavier static-blog setup in miniature:
 
 - `scripts/new-post.mjs` creates deterministic Markdown drafts.
 - `scripts/publish-post.mjs` flips draft state and date metadata.
-- `scripts/check-content.mjs` catches malformed frontmatter, redundant tags,
-  slug issues, and broken interactive figure blocks.
-- `scripts/check-writing.mjs` catches placeholder prose, empty image alt text,
+- `tests/content.test.mjs` catches malformed frontmatter, redundant tags, slug
+  issues, and broken interactive figure blocks.
+- `tests/writing.test.mjs` catches placeholder prose, empty image alt text,
   duplicate words, and Markdown/HTML indentation mistakes.
 - `scripts/check-links.mjs`, `scripts/check-a11y.mjs`, and
   `scripts/check-built-pages.mjs` run after a production build.
