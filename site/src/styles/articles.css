@@ -192,6 +192,10 @@
 }
 
 .essay-content .explorable-demo {
+  --figure-useful: #8ea36f;
+  --figure-caught: #b8793a;
+  --figure-blocked: #7d6b8f;
+  --figure-risk: #c7553d;
   position: relative;
   margin: 2.5rem 0;
   border: 1px solid rgba(197, 180, 157, .24);

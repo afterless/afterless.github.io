@@ -1,0 +1,188 @@
+---
+import BackdoorBackground from "./BackdoorBackground.astro";
+import QuestionSeal from "./QuestionSeal.astro";
+import type { SiteTheme } from "../types/siteTheme";
+import { cssVars } from "../lib/themes";
+
+type RecentPost = {
+  title: string;
+  date: Date;
+  tag: string;
+  summary: string;
+  href: string;
+  search: string;
+};
+
+interface Props {
+  siteTheme: SiteTheme;
+  recentPosts: RecentPost[];
+  workItems: string[];
+}
+
+const { siteTheme, recentPosts, workItems } = Astro.props;
+---
+
+<main id="personal-site" class="personal-site" style={cssVars(siteTheme)}>
+  <BackdoorBackground variation={siteTheme} />
+
+  <header class="site-header" aria-label="Site navigation">
+    <a class="wordmark" href="/">
+      <span>Ayush Panda</span>
+      <span>afterless</span>
+    </a>
+    <nav class="top-nav">
+      <a href="#writing">writing</a>
+      <a href="#work">work</a>
+      <a href="/blog">blog</a>
+      <button
+        class="backroom-toggle"
+        type="button"
+        data-backroom-search-toggle
+        aria-expanded="false"
+        aria-controls="landing-backroom-search"
+      >
+        search
+      </button>
+    </nav>
+  </header>
+
+  <aside class="landing-backroom-search" id="landing-backroom-search" hidden>
+    <label>
+      <span>Back room search</span>
+      <input type="search" placeholder="try control, interpretability, web" data-backroom-search />
+    </label>
+    <div class="landing-search-results" aria-live="polite">
+      {
+        recentPosts.map((post) => (
+          <a href={post.href} data-search-result={post.search}>
+            <span>{post.tag}</span>
+            <strong>{post.title}</strong>
+          </a>
+        ))
+      }
+      <a href="/projects" data-search-result="projects work public traces research organizing site">
+        <span>work</span>
+        <strong>Project traces</strong>
+      </a>
+    </div>
+  </aside>
+
+  <section class="hero-shell" aria-labelledby="intro-title">
+    <div class="hero-copy">
+      <h1 id="intro-title">AI safety notes from a quiet room behind the page.</h1>
+      <div class="bio-text">
+        <p>
+          Hi, I'm Ayush. As of winter 2026, I am a MATS scholar in Francis
+          Rhys Ward's stream, working on AI control settings for automated AI
+          R&D. Outside of MATS, I am pursuing my MS in Computer Science at
+          Georgia Tech, where I co-founded the AI Safety Initiative.
+        </p>
+        <p>
+          I am interested in AI safety, interpretability, and understanding
+          the internal mechanisms of large language models. Previously, I
+          investigated how LLMs encode future tokens using sparse autoencoders
+          at SPAR, taught ML safety as a TA for the Center for AI Safety, and
+          worked as a software engineer at AWS.
+        </p>
+      </div>
+      <div class="hero-actions" aria-label="Contact links">
+        <a href="mailto:apanda38@gatech.edu">apanda38 [at] gatech [dot] edu</a>
+        <a href="https://github.com/afterless" target="_blank" rel="noreferrer">GitHub</a>
+        <a href="https://linkedin.com/in/ayushpanda1029" target="_blank" rel="noreferrer">LinkedIn</a>
+      </div>
+    </div>
+
+    <aside id="work" class="threshold-panel" aria-label="Current work">
+      <div class="threshold-heading">
+        <div>
+          <div class="panel-kicker">current shape</div>
+          <h2>Control, interpretability, and agentic systems.</h2>
+        </div>
+        <div class="threshold-seal-wrap">
+          <QuestionSeal class="threshold-question-seal" projection="focus" />
+        </div>
+      </div>
+      <p class="question-caption" data-question-display>Hover a star to inspect a recurring question.</p>
+      <ul class="threshold-list">
+        {workItems.map((item) => <li>{item}</li>)}
+      </ul>
+    </aside>
+  </section>
+
+  <section id="writing" class="content-band backstage-band">
+    <div class="section-heading">
+      <p>Writing</p>
+      <h2>Recent notes</h2>
+    </div>
+    <div class="post-list">
+      {
+        recentPosts.map((post) => (
+          <article class="post-row" data-search-result={post.search}>
+            <div>
+              <time datetime={post.date.toISOString()}>
+                {post.date.toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                  timeZone: "UTC",
+                })}
+              </time>
+              <span>{post.tag}</span>
+            </div>
+            <a href={post.href}>
+              <h3>{post.title}</h3>
+              <p>{post.summary}</p>
+            </a>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+</main>
+
+<script>
+  const searchToggle = document.querySelector("[data-backroom-search-toggle]");
+  const searchPanel = document.querySelector("#landing-backroom-search");
+  const searchInput = document.querySelector("[data-backroom-search]");
+  const searchResults = [...document.querySelectorAll(".landing-search-results [data-search-result]")];
+
+  searchToggle?.addEventListener("click", () => {
+    const willOpen = searchPanel?.hasAttribute("hidden");
+    searchPanel?.toggleAttribute("hidden", !willOpen);
+    searchToggle.setAttribute("aria-expanded", String(willOpen));
+    if (willOpen) searchInput?.focus();
+  });
+
+  searchInput?.addEventListener("input", () => {
+    const query = searchInput.value.trim().toLowerCase();
+    searchResults.forEach((result) => {
+      result.toggleAttribute("hidden", query.length > 0 && !result.dataset.searchResult?.includes(query));
+    });
+  });
+
+  const starButtons = [...document.querySelectorAll("[data-star]")];
+  const questionDisplay = document.querySelector("[data-question-display]");
+  const defaultQuestionText = questionDisplay?.textContent?.trim() ?? "";
+
+  function activateStar(button) {
+    starButtons.forEach((star) => star.classList.toggle("is-active", star === button));
+    questionDisplay?.classList.add("is-visible");
+    if (questionDisplay && button.dataset.questionText) {
+      questionDisplay.textContent = button.dataset.questionText;
+    }
+  }
+
+  function clearStars() {
+    starButtons.forEach((star) => star.classList.remove("is-active"));
+    questionDisplay?.classList.remove("is-visible");
+    if (questionDisplay) questionDisplay.textContent = defaultQuestionText;
+  }
+
+  starButtons.forEach((button) => {
+    button.addEventListener("mouseenter", () => activateStar(button));
+    button.addEventListener("focus", () => activateStar(button));
+    button.addEventListener("blur", clearStars);
+  });
+
+  document.querySelector(".threshold-question-seal")?.addEventListener("mouseleave", clearStars);
+</script>

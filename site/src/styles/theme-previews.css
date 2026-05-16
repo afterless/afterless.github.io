@@ -1,0 +1,288 @@
+.theme-preview-index {
+  min-height: 100vh;
+  padding: clamp(2rem, 5vw, 4rem);
+  background:
+    radial-gradient(ellipse at 80% 8%, rgba(125, 107, 143, .16), transparent 34%),
+    linear-gradient(180deg, #090908 0%, #11100d 56%, #080807 100%);
+  color: #efe4d0;
+}
+
+.theme-preview-index header {
+  max-width: 68rem;
+  margin: 0 auto 2rem;
+}
+
+.theme-preview-index header > a,
+.theme-preview-ribbon a {
+  color: #c99a4d;
+  font-family: var(--font-mono);
+  font-size: .78rem;
+  text-decoration: none;
+}
+
+.theme-preview-index header p {
+  max-width: 38rem;
+  margin: 1.2rem 0 .35rem;
+  color: #a99d87;
+  font-family: var(--font-sans);
+}
+
+.theme-preview-index h1 {
+  margin: 0;
+  color: #f2e6ce;
+  font-size: clamp(3rem, 8vw, 6.4rem);
+  line-height: .92;
+}
+
+.theme-preview-index section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+  gap: 1rem;
+  max-width: 86rem;
+  margin: 0 auto;
+}
+
+.theme-preview-index article {
+  display: grid;
+  gap: 1rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 32%, transparent);
+  border-radius: 8px;
+  padding: 1rem;
+  background:
+    radial-gradient(ellipse at 88% 8%, color-mix(in srgb, var(--glow) 70%, transparent), transparent 38%),
+    var(--paper);
+  color: var(--text);
+  box-shadow: 0 18px 70px var(--site-shadow);
+}
+
+.theme-preview-index article span {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  text-transform: uppercase;
+}
+
+.theme-preview-index article h2 {
+  margin: .25rem 0;
+  font-size: 1.55rem;
+}
+
+.theme-preview-index article p {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+}
+
+.theme-preview-index article nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+}
+
+.theme-preview-index article nav a {
+  border: 1px solid color-mix(in srgb, var(--accent) 42%, transparent);
+  border-radius: 999px;
+  padding: .42rem .7rem;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: .76rem;
+  text-decoration: none;
+}
+
+.theme-preview-ribbon {
+  position: fixed;
+  top: .85rem;
+  left: 50%;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  max-width: calc(100vw - 1rem);
+  border: 1px solid color-mix(in srgb, var(--accent, #b8793a) 34%, transparent);
+  border-radius: 999px;
+  padding: .45rem .7rem;
+  background: color-mix(in srgb, var(--panel, rgba(20, 19, 16, .92)) 92%, var(--ink, #080807));
+  color: var(--muted, #aaa18d);
+  font-family: var(--font-sans);
+  font-size: .82rem;
+  box-shadow: 0 14px 54px rgba(0, 0, 0, .28);
+  transform: translateX(-50%);
+}
+
+.theme-preview-ribbon span {
+  color: var(--text, #eee4d0);
+  white-space: nowrap;
+}
+
+.theme-preview-shell {
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 76% 8%, color-mix(in srgb, var(--accent-two) 18%, transparent), transparent 34%),
+    radial-gradient(ellipse at 16% 24%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 30%),
+    linear-gradient(180deg, var(--ink) 0%, var(--paper) 52%, var(--ink) 100%);
+  color: var(--text);
+}
+
+.theme-preview-article-main {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 7rem 1.5rem 4rem;
+}
+
+.theme-preview-shell .essay-shell,
+.theme-preview-shell .essay-header h1,
+.theme-preview-shell .essay-content h2,
+.theme-preview-shell .essay-content h3,
+.theme-preview-shell .essay-outline a:hover,
+.theme-preview-shell .explorable-header h2,
+.theme-preview-shell .explorable-readout strong {
+  color: var(--text);
+}
+
+.theme-preview-shell .essay-header,
+.theme-preview-shell .essay-content h2,
+.theme-preview-shell .essay-end {
+  border-color: color-mix(in srgb, var(--muted) 22%, transparent);
+}
+
+.theme-preview-shell .essay-description,
+.theme-preview-shell .essay-content,
+.theme-preview-shell .essay-content blockquote,
+.theme-preview-shell .explorable-controls label {
+  color: color-mix(in srgb, var(--muted) 82%, var(--text));
+}
+
+.theme-preview-shell .essay-back,
+.theme-preview-shell .essay-meta,
+.theme-preview-shell .essay-outline,
+.theme-preview-shell .essay-outline a.is-child,
+.theme-preview-shell .explorable-controls output,
+.theme-preview-shell .explorable-figure figcaption,
+.theme-preview-shell .explorable-readout span,
+.theme-preview-shell .essay-end {
+  color: var(--muted);
+}
+
+.theme-preview-shell .essay-back:hover,
+.theme-preview-shell .essay-outline p,
+.theme-preview-shell .essay-outline a.is-active,
+.theme-preview-shell .essay-content a,
+.theme-preview-shell .explorable-header p,
+.theme-preview-shell .explorable-figure figcaption strong {
+  color: var(--accent);
+}
+
+.theme-preview-shell .essay-outline,
+.theme-preview-shell .essay-content pre,
+.theme-preview-shell .explorable-demo,
+.theme-preview-shell .explorable-figure svg {
+  border-color: color-mix(in srgb, var(--muted) 20%, transparent);
+}
+
+.theme-preview-shell .essay-outline {
+  background: color-mix(in srgb, var(--panel) 62%, transparent);
+}
+
+.theme-preview-shell .essay-outline a,
+.theme-preview-shell .essay-outline span {
+  border-color: color-mix(in srgb, var(--muted) 18%, transparent);
+}
+
+.theme-preview-shell .essay-outline a:hover,
+.theme-preview-shell .essay-outline a.is-active {
+  border-color: color-mix(in srgb, var(--accent) 58%, transparent);
+}
+
+.theme-preview-shell .essay-outline a.is-active {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.theme-preview-shell .essay-content a {
+  text-decoration-color: color-mix(in srgb, var(--accent) 42%, transparent);
+}
+
+.theme-preview-shell .essay-content code {
+  background: color-mix(in srgb, var(--text) 9%, transparent);
+  color: var(--text);
+}
+
+.theme-preview-shell .essay-content pre,
+.theme-preview-shell .explorable-figure svg {
+  background: color-mix(in srgb, var(--ink) 72%, transparent);
+}
+
+.theme-preview-shell .essay-content blockquote {
+  border-left-color: color-mix(in srgb, var(--accent) 68%, transparent);
+}
+
+.theme-preview-shell .explorable-demo {
+  background:
+    radial-gradient(ellipse at 86% 8%, color-mix(in srgb, var(--accent-two) 18%, transparent), transparent 32%),
+    radial-gradient(ellipse at 8% 95%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 30%),
+    color-mix(in srgb, var(--panel) 94%, var(--ink));
+  box-shadow: 0 24px 80px var(--site-shadow);
+}
+
+.theme-preview-shell .explorable-demo::before {
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--text) 5%, transparent) 1px, transparent 1px),
+    linear-gradient(color-mix(in srgb, var(--text) 4%, transparent) 1px, transparent 1px);
+}
+
+.theme-preview-shell .explorable-header,
+.theme-preview-shell .explorable-controls,
+.theme-preview-shell .explorable-readout div {
+  border-color: color-mix(in srgb, var(--muted) 18%, transparent);
+}
+
+.theme-preview-shell .explorable-threshold span {
+  border-color: color-mix(in srgb, var(--accent) 52%, transparent);
+}
+
+.theme-preview-shell .explorable-controls input {
+  accent-color: var(--accent);
+}
+
+.theme-preview-shell .axis {
+  stroke: color-mix(in srgb, var(--muted) 30%, transparent);
+}
+
+.theme-preview-shell .threshold-arc {
+  stroke: color-mix(in srgb, var(--accent) 34%, transparent);
+}
+
+.theme-preview-shell .axis-label,
+.theme-preview-shell .bar-label {
+  fill: var(--muted);
+}
+
+.theme-preview-shell .frontier-line {
+  stroke: var(--accent);
+}
+
+.theme-preview-shell .frontier-point {
+  fill: var(--accent-two);
+  stroke: var(--text);
+}
+
+.theme-preview-shell .explorable-demo {
+  --figure-useful: color-mix(in srgb, var(--accent-two) 78%, var(--text));
+  --figure-caught: var(--accent);
+  --figure-blocked: var(--accent-two);
+  --figure-risk: color-mix(in srgb, var(--accent) 62%, #b01826);
+}
+
+@media (max-width: 720px) {
+  .theme-preview-ribbon {
+    position: sticky;
+    top: .5rem;
+    margin: .5rem auto -4.5rem;
+    width: max-content;
+    transform: none;
+  }
+
+  .theme-preview-article-main {
+    padding-inline: 1rem;
+  }
+}

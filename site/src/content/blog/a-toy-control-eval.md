@@ -124,11 +124,20 @@ equations with eval data, ablations, or a concrete protocol.
     const frontierPath = root.querySelector("[data-frontier-path]");
     const frontierPoint = root.querySelector("[data-frontier-point]");
 
+    function resolvedColor(name, fallback) {
+      const probe = document.createElement("span");
+      probe.style.color = `var(${name}, ${fallback})`;
+      root.append(probe);
+      const color = getComputedStyle(probe).color;
+      probe.remove();
+      return color || fallback;
+    }
+
     const colors = {
-      useful: "#8ea36f",
-      caught: "#b8793a",
-      blocked: "#7d6b8f",
-      risk: "#c7553d",
+      useful: resolvedColor("--figure-useful", "#8ea36f"),
+      caught: resolvedColor("--figure-caught", "#b8793a"),
+      blocked: resolvedColor("--figure-blocked", "#7d6b8f"),
+      risk: resolvedColor("--figure-risk", "#c7553d"),
     };
 
     function clamp(value, min = 0, max = 1) {
