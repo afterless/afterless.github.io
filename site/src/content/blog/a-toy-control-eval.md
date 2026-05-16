@@ -191,7 +191,7 @@ equations with eval data, ablations, or a concrete protocol.
       const useDarkText = relativeLuminance(background) > 0.43;
       return {
         fill: useDarkText ? "#10110e" : "#fff4dc",
-        stroke: useDarkText ? "rgba(255, 246, 222, 0.58)" : "rgba(8, 7, 6, 0.72)",
+        backplate: useDarkText ? "rgba(255, 246, 222, 0.72)" : "rgba(8, 10, 8, 0.58)",
       };
     }
 
@@ -226,18 +226,33 @@ equations with eval data, ablations, or a concrete protocol.
         bars.append(rect);
 
         if (segmentWidth > 54) {
+          const labelText = pct(value);
+          const labelWidth = labelText.length * 6.4 + 13;
+          const centerX = x + segmentWidth / 2;
+          const centerY = y + height / 2;
+          const labelPaint = barLabelPaint(colors[key]);
+          const group = svgEl("g");
+          group.setAttribute("class", "bar-label-group");
+
+          const backplate = svgEl("rect");
+          backplate.setAttribute("class", "bar-label-backplate");
+          backplate.setAttribute("x", centerX - labelWidth / 2);
+          backplate.setAttribute("y", centerY - 10);
+          backplate.setAttribute("width", labelWidth);
+          backplate.setAttribute("height", 20);
+          backplate.setAttribute("rx", 5);
+          backplate.style.fill = labelPaint.backplate;
+
           const text = svgEl("text");
-          text.setAttribute("x", x + segmentWidth / 2);
-          text.setAttribute("y", y + 32);
+          text.setAttribute("x", centerX);
+          text.setAttribute("y", centerY + 0.5);
           text.setAttribute("text-anchor", "middle");
           text.setAttribute("class", "bar-label");
-          const labelPaint = barLabelPaint(colors[key]);
           text.style.fill = labelPaint.fill;
-          text.style.stroke = labelPaint.stroke;
-          text.style.strokeWidth = "2.8px";
-          text.style.paintOrder = "stroke fill";
-          text.textContent = pct(value);
-          labels.append(text);
+          text.textContent = labelText;
+
+          group.append(backplate, text);
+          labels.append(group);
         }
 
         const legend = svgEl("text");
