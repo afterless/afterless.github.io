@@ -3,5 +3,6 @@ site/node_modules/
 site/dist/
 site/.astro/
 .DS_Store
+.vscode/
 .claude/
 notes/
