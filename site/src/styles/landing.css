@@ -6,20 +6,6 @@
   color: var(--text);
 }
 
-html:not(.dark) .personal-site {
-  --ink: #f1e2c3 !important;
-  --paper: #ead7ad !important;
-  --panel: rgba(255, 248, 229, .9) !important;
-  --text: #241d12 !important;
-  --muted: #66573a !important;
-  --accent: #8d542f !important;
-  --accent-two: #597442 !important;
-  --door: #9a4929 !important;
-  --glow: rgba(168, 101, 40, .2) !important;
-  --site-shadow: rgba(89, 58, 24, .18) !important;
-  --grain-opacity: .12 !important;
-}
-
 .personal-site::before {
   content: "";
   position: fixed;
@@ -112,39 +98,6 @@ html:not(.dark) .personal-site {
   background: transparent;
   font: inherit;
   cursor: pointer;
-}
-
-.landing-theme-toggle {
-  display: grid;
-  place-items: center;
-  width: 2rem;
-  height: 2rem;
-  border: 1px solid color-mix(in srgb, var(--muted) 18%, transparent);
-  border-radius: 6px;
-  background: color-mix(in srgb, var(--panel) 72%, transparent);
-  color: var(--muted);
-  cursor: pointer;
-  transition: color .18s ease, border-color .18s ease, background .18s ease;
-}
-
-.landing-theme-toggle:hover {
-  border-color: color-mix(in srgb, var(--accent) 48%, transparent);
-  color: var(--accent);
-}
-
-.landing-theme-toggle svg {
-  grid-area: 1 / 1;
-  width: 1rem;
-  height: 1rem;
-}
-
-.landing-theme-toggle .moon-icon,
-html:not(.dark) .landing-theme-toggle .sun-icon {
-  display: none;
-}
-
-html:not(.dark) .landing-theme-toggle .moon-icon {
-  display: block;
 }
 
 .landing-backroom-search {
