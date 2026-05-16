@@ -1,5 +1,5 @@
 ---
-import Layout from "./Layout.astro";
+import DocumentLayout from "./DocumentLayout.astro";
 import Navigation from "../components/Navigation.astro";
 import Footer from "../components/Footer.astro";
 
@@ -12,7 +12,7 @@ interface Props {
 const { title, description, wide = false } = Astro.props;
 ---
 
-<Layout title={title} description={description}>
+<DocumentLayout title={title} description={description}>
   <div class="page-shell subpage-stage min-h-screen text-stone-900 transition-colors dark:bg-stone-950 dark:text-stone-100">
     <div class="pointer-events-none fixed inset-0 site-paper-texture" aria-hidden="true"></div>
     <Navigation />
@@ -26,4 +26,4 @@ const { title, description, wide = false } = Astro.props;
     </main>
     <Footer />
   </div>
-</Layout>
+</DocumentLayout>

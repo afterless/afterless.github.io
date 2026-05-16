@@ -1,5 +1,5 @@
 ---
-import MainLayout from "../../layouts/MainLayout.astro";
+import SubpageLayout from "../../layouts/SubpageLayout.astro";
 import { getCollection, render } from "astro:content";
 
 export async function getStaticPaths() {
@@ -23,7 +23,7 @@ const readingMinutes = Math.max(1, Math.round(post.body.split(/\s+/).length / 22
 const outline = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 3);
 ---
 
-<MainLayout title={`${post.data.title} — afterless`} description={post.data.description} wide>
+<SubpageLayout title={`${post.data.title} — afterless`} description={post.data.description} wide>
   <article class="essay-shell">
     <header class="essay-header">
       <a href="/blog" class="essay-back"><span aria-hidden="true">←</span> Back to blog</a>
@@ -97,4 +97,4 @@ const outline = headings.filter((heading) => heading.depth >= 2 && heading.depth
 
     headings.forEach((item) => item && observer.observe(item.heading));
   </script>
-</MainLayout>
+</SubpageLayout>

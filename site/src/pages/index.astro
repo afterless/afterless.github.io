@@ -1,5 +1,5 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import DocumentLayout from "../layouts/DocumentLayout.astro";
 import BackdoorBackground from "../components/BackdoorBackground.astro";
 import QuestionSeal from "../components/QuestionSeal.astro";
 import { getCollection } from "astro:content";
@@ -64,7 +64,7 @@ const workItems = [
 ];
 ---
 
-<Layout
+<DocumentLayout
   title="Ayush Panda"
   description="Ayush Panda's personal website, blog, and AI safety research notes."
 >
@@ -267,4 +267,4 @@ const workItems = [
 
     document.querySelector(".threshold-question-seal")?.addEventListener("mouseleave", clearStars);
   </script>
-</Layout>
+</DocumentLayout>

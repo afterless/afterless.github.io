@@ -1,5 +1,5 @@
 ---
-import MainLayout from "../../layouts/MainLayout.astro";
+import SubpageLayout from "../../layouts/SubpageLayout.astro";
 import QuestionSeal from "../../components/QuestionSeal.astro";
 import { getCollection } from "astro:content";
 
@@ -25,7 +25,7 @@ const essays = shelfPosts.filter((post) => post.kind === "essay");
 const notes = shelfPosts.filter((post) => post.kind !== "essay");
 ---
 
-<MainLayout title="blog — afterless" description="Writing by afterless.">
+<SubpageLayout title="blog — afterless" description="Writing by afterless.">
   <article class="writing-index">
     <header class="writing-hero">
       <p class="subpage-kicker">Writing</p>
@@ -234,4 +234,4 @@ const notes = shelfPosts.filter((post) => post.kind !== "essay");
 
     document.querySelector(".archive-question-seal")?.addEventListener("mouseleave", clearStars);
   </script>
-</MainLayout>
+</SubpageLayout>
